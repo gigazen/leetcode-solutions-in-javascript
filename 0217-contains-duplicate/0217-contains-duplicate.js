@@ -3,14 +3,13 @@
  * @return {boolean}
  */
 var containsDuplicate = function (nums) {
-  let myArr = [];
+  let numsSet = new Set();
 
-  for (let i = 0; i < nums.length; i++) {
-    if (!myArr.includes(nums[i])) {
-      myArr.push(nums[i]);
-    } else {
-      return true;
-    }
+  for (let num of nums) {
+    if (numsSet.has(num)) return true;
+
+    numsSet.add(num);
   }
+
   return false;
 };
