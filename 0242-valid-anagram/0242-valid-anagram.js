@@ -8,22 +8,24 @@ let isAnagram = function (s, t) {
 
   let [countS, countT] = [{}, {}];
 
-  for (let i = 0; i < s.length; i++) {
-    if (!countS[s[i]]) {
-      countS[s[i]] = 1;
+  // s and t are strings so iterable that's why for...of
+  for (let char of s) {
+    if (!countS[char]) {
+      countS[char] = 1;
     } else {
-      countS[s[i]] = countS[s[i]] + 1;
+      countS[char]++;
     }
   }
 
-  for (let i = 0; i < t.length; i++) {
-    if (!countT[t[i]]) {
-      countT[t[i]] = 1;
+  for (let char of t) {
+    if (!countT[char]) {
+      countT[char] = 1;
     } else {
-      countT[t[i]] = countT[t[i]] + 1;
+      countT[char]++;
     }
   }
 
+  // countS and countT are objects so not directly iterable that's why for...in
   for (let key in countS) {
     if (countS[key] !== countT[key]) return false;
   }
