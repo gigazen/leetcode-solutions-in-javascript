@@ -11,7 +11,7 @@ let isAnagram = function (s, t) {
   // s and t are strings so iterable that's why for...of
   for (let char of s) {
     if (!countS[char]) {
-      countS[char] = 1;
+      countS[char] = 1; 
     } else {
       countS[char]++;
     }
