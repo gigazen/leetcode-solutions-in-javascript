@@ -3,28 +3,39 @@
  * @param {string} t
  * @return {boolean}
  */
-const isAnagram = (s, t) => {
-  const map = {}
-  if (s.length !== t.length) {
-    return false
-  }
-  for (c of s) {
-    if (map[c]) {
-      map[c]++
-    } else {
-      map[c] = 1
+var isAnagram = (s, t, map = new Map()) => {
+    const isEqual = s.length === t.length;
+    if (!isEqual) return false;
+
+    addFrequency(s, map);      /* Time O(N) | Space O(1) */
+    subtractFrequency(t, map); /* Time O(N) | Space O(1) */
+
+    return checkFrequency(map);/* Time O(N) */
+};
+
+const addFrequency = (str, map) => {
+    for (const char of str) {/* Time O(N) */
+        const count = (map.get(char) || 0) + 1;
+
+        map.set(char, count);   /* Space O(1) */
     }
-  }
-  for (c of t) {
-    if (!map[c]) {
-      return false
+}
+
+const subtractFrequency = (str, map) => {
+    for (const char of str) {/* Time O(N) */
+        if (!map.has(char)) continue;
+
+        const count = map.get(char) - 1;
+
+        map.set(char, count);   /* Space O(1) */
     }
-    map[c]--
-  }
-  for (c of s) {
-    if (map[c] !== 0) {
-      return false
+};
+
+const checkFrequency = (map) => {
+    for (const [ char, count ] of map) {/* Time O(N) */
+        const isEmpty = count === 0;
+        if (!isEmpty) return false;
     }
-  }
-  return true
+
+    return true;
 }
