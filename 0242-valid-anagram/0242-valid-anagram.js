@@ -3,28 +3,32 @@
  * @param {string} t
  * @return {boolean}
  */
-var isAnagram = function (s, t) {
-    if (!s || !t) return false;
-    if (s.length !== t.length) return false;
-    
-    const map = new Map();
-    
-    for (let char of s) {
-        if (!map.has(char)) {
-            map.set(char, 1);
-        } else {
-            map.set(char, map.get(char) + 1);
-        }
+let isAnagram = function (s, t) {
+  if (s.length !== t.length) return false;
+
+  let [countS, countT] = [{}, {}];
+
+  // s and t are strings so iterable that's why for...of
+  for (let char of s) {
+    if (!countS[char]) {
+      countS[char] = 1;
+    } else {
+      countS[char]++;
     }
-    
-    for (let char of t) {
-        if (!map.has(char)) return false;
-        if (map.get(char) === 1) {
-            map.delete(char);
-        } else {
-            map.set(char, map.get(char) - 1);
-        }
+  }
+
+  for (let char of t) {
+    if (!countT[char]) {
+      countT[char] = 1;
+    } else {
+      countT[char]++;
     }
-    
-    return map.size === 0;
+  }
+
+  // countS and countT are objects so not directly iterable that's why for...in
+  for (let key in countS) {
+    if (countS[key] !== countT[key]) return false;
+  }
+
+  return true;
 };
