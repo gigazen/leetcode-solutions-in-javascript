@@ -3,15 +3,15 @@
  * @param {string} t
  * @return {boolean}
  */
-var isSubsequence = function (s, t) {
-  let currentIndex = -1;
-  for (let i = 0; i < s.length; i++) {
-    const target = t.indexOf(s[i], currentIndex + 1);
-    if (target > currentIndex) {
-      currentIndex = target;
-    } else {
-      return false;
+const isSubsequence = (s, t, index = 0) => {
+
+    if (s.length > t.length) return false;
+
+    for (let i = 0; i < t.length; i++) {
+        if (s[index] == t[i]) {
+            index++;
+            if (index == s.length) break;
+        }
     }
-  }
-  return true;
+    return s.length === index;
 };
