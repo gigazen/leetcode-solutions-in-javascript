@@ -3,21 +3,16 @@
  * @param {string} t
  * @return {boolean}
  */
-var isSubsequence = function(s, t) {
-    // Base case: if the s string is empty...
-    if(s.length == 0)
-        return true;
-    // Initialize pointers for both strings
-    let i = 0;
-    let j = 0;
-    // We can iterate until either of them becomes zero...
-    while(i < s.length && j < t.length){
-        // Compare characters, increment i pointer...
-        if(s.charAt(i) == t.charAt(j)){
-            i++;
-        }j++;
-        // If the pointer is equal to the size of s, the match is found...
-        if(i == s.length)  return true;
-    }
-    return false;       // Otherwise return false...
+var isSubsequence = function (s, t) {
+  if (s === t) return true;
+  if (s.length === 0) return true;
+  if (s.length > t.length) return false;
+
+  let startIndex = 0;
+  for (let i = 0; i < s.length; i++) {
+    let indexOfCharInT = t.indexOf(s[i], startIndex);
+    if (indexOfCharInT === -1) return false;
+    startIndex = indexOfCharInT + 1;
+  }
+  return true;
 };
