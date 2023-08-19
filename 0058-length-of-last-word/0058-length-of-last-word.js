@@ -3,6 +3,19 @@
  * @return {number}
  */
 var lengthOfLastWord = function (s) {
-    let trimmedString = s.trim();
-    return trimmedString.length - trimmedString.lastIndexOf(" ") - 1;
+  let lastWordLength = 0;
+  let rightOfFirstNonEmptyChar = true;
+
+  for (let i = s.length - 1; i >= 0; i--) {
+    if (s[i] !== " ") {
+      lastWordLength++;
+      rightOfFirstNonEmptyChar = false;
+    } else {
+      if (!rightOfFirstNonEmptyChar) {
+        break;
+      }
+    }
+  }
+
+  return lastWordLength;
 };
