@@ -14,5 +14,5 @@ var twoSum = function (nums, target) {
 
     obj[nums[i]] = i;
   }
-  return;
+  return "No match found";
 };
