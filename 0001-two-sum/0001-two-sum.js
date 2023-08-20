@@ -4,15 +4,14 @@
  * @return {number[]}
  */
 var twoSum = function (nums, target) {
-  let obj = {};
+  let map = new Map();
 
   for (let i = 0; i < nums.length; i++) {
     let diffVal = target - nums[i];
-    if (obj[diffVal] !== undefined) {
-      return [i, obj[diffVal]];
+    if (map.has(diffVal)) {
+      return [i, map.get(diffVal)];
     }
-
-    obj[nums[i]] = i;
+    map.set(nums[i], i);
   }
-  return "No match found";
+  return;
 };
