@@ -3,25 +3,16 @@
  * @return {string[][]}
  */
 var groupAnagrams = function (strs) {
-  let oArr = [];
-  for (let i = 0; i < strs.length; i++) {
-    let newStr = strs[i].split("").sort().join("");
-    oArr.push(newStr);
-  }
+  const sortedStrsArr = strs.map((word) => word.split("").sort().join(""));
 
-  let countObj = {};
-  for (let j = 0; j < oArr.length; j++) {
-    if (!countObj[oArr[j]]) {
-      countObj[oArr[j]] = [strs[j]];
+  let hash = {};
+  for (let i = 0; i < strs.length; i++) {
+    if (!hash[sortedStrsArr[i]]) {
+      hash[sortedStrsArr[i]] = [strs[i]];
     } else {
-      countObj[oArr[j]].push(strs[j]);
+      hash[sortedStrsArr[i]].push(strs[i]);
     }
   }
 
-  let outputArr = [];
-  for (let key in countObj) {
-    outputArr.push(countObj[key]);
-  }
-
-  return outputArr;
+  return Object.values(hash);
 };
