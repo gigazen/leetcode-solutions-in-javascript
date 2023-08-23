@@ -3,17 +3,13 @@
  * @return {string[][]}
  */
 // Using combination of Sorting and HashMap
-var groupAnagrams = function (strs) {
-  let obj = {};
+var groupAnagrams = function(strs) {
+    let map = {};
 
-  for (let str of strs) {
-    let sortedStr = str.split("").sort().join("");
-
-    if (!obj[sortedStr]) {
-      obj[sortedStr] = [];
+    for(let str of strs){
+        let s = str.split('').sort().join('');
+        if(!map[s]) map[s] = [];
+        map[s].push(str);
     }
-    obj[sortedStr].push(str);
-  }
-
-  return Object.values(obj);
+    return Object.values(map);
 };
