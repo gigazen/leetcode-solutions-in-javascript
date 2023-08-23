@@ -14,5 +14,9 @@ var groupAnagrams = function (strs) {
     // {"aet": ["eat", "tea", "ate"], "ant": ["tan", "nat"], "abt": ["bat"]}
   }
 
-  return Object.values(obj);
+  let outputArr = [];
+  for (let key in obj) {
+    outputArr.push(obj[key]);
+  }
+  return outputArr;
 };
