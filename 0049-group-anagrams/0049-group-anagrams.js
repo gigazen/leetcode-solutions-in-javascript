@@ -2,21 +2,17 @@
  * @param {string[]} strs
  * @return {string[][]}
  */
-// Using combination of Sorting and HashMap
 var groupAnagrams = function (strs) {
-  let obj = {};
+  const sortedStrsArr = strs.map((word) => word.split("").sort().join(""));
 
-  for (let str of strs) {
-    let sortedStr = str.split("").sort().join("");
-    // ["aet","aet","ant","aet","ant","abt"]
-
-    obj[sortedStr] ? obj[sortedStr].push(str) : (obj[sortedStr] = [str]);
-    // {"aet": ["eat", "tea", "ate"], "ant": ["tan", "nat"], "abt": ["bat"]}
+  let hash = {};
+  for (let i = 0; i < strs.length; i++) {
+    if (!hash[sortedStrsArr[i]]) {
+      hash[sortedStrsArr[i]] = [strs[i]];
+    } else {
+      hash[sortedStrsArr[i]].push(strs[i]);
+    }
   }
 
-  let outputArr = [];
-  for (let key in obj) {
-    outputArr.push(obj[key]);
-  }
-  return outputArr;
+  return Object.values(hash);
 };
