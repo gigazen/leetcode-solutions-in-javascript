@@ -3,10 +3,12 @@
  * @return {number[]}
  */
 var getConcatenation = function (nums) {
-  let ans = nums.slice();
-  for (let i = 0; i < nums.length; i++) {
-    ans[i + nums.length] = nums[i];
+
+  let ans = [];
+
+  for (let i = 0; i < nums.length * 2; i++) {
+    ans[i] = nums[i % nums.length];
   }
-    
+  
   return ans;
 };
