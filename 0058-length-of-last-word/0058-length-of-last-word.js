@@ -10,10 +10,9 @@ var lengthOfLastWord = function (s) {
     if (s[i] !== " ") {
       lastWordLength++;
       rightOfLastNonEmptyChar = false;
-    } else {
-      if (!rightOfLastNonEmptyChar) {
-        break;
-      }
+    }
+    if (s[i] === " " && rightOfLastNonEmptyChar === false) {
+      break;
     }
   }
 
