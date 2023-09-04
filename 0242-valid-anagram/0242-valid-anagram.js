@@ -6,29 +6,25 @@
 let isAnagram = function (s, t) {
   if (s.length !== t.length) return false;
 
-  let [countS, countT] = [{}, {}];
+  let map = new Map();
 
-  // s and t are strings so iterable that's why for...of
   for (let char of s) {
-    if (!countS[char]) {
-      countS[char] = 1;
+    if (!map.has(char)) {
+      map.set(char, 1);
     } else {
-      countS[char]++;
+      map.set(char, map.get(char) + 1);
     }
   }
 
   for (let char of t) {
-    if (!countT[char]) {
-      countT[char] = 1;
+    if (!map.has(char)) {
+      return false;
+    } else if (map.get(char) === 1) {
+      map.delete(char);
     } else {
-      countT[char]++;
+      map.set(char, map.get(char) - 1);
     }
   }
 
-  // countS and countT are objects so not directly iterable that's why for...in
-  for (let key in countS) {
-    if (countS[key] !== countT[key]) return false;
-  }
-
-  return true;
+  if (map.size === 0) return true;
 };
