@@ -4,19 +4,20 @@
  */
 // Using combination of Sorting and HashMap
 var groupAnagrams = function (strs) {
-  let obj = {};
+  let map = new Map();
 
   for (let str of strs) {
     let sortedStr = str.split("").sort().join("");
     // ["aet","aet","ant","aet","ant","abt"]
 
-    if (!obj[sortedStr]) {
-      obj[sortedStr] = [];
+    if (!map.has(sortedStr)) {
+      map.set(sortedStr, [str]);
+    } else {
+      map.get(sortedStr).push(str);
     }
-    obj[sortedStr].push(str);
-    // {"aet": ["eat", "tea", "ate"], "ant": ["tan", "nat"], "abt": ["bat"]}
+    // Map(3) {"aet": ["eat", "tea", "ate"], "ant": ["tan", "nat"], "abt": ["bat"]}
   }
 
-  return Object.values(obj);
+  return Array.from(map.values());
 };
 
