@@ -15,7 +15,7 @@ var generate = function (numRows) {
     // need to manipulate value from the 1st element till the penultimate element in a column, skip the 0th and last columns as they should be 1s
     for (let j = 1; j < i; j++) {
       // for i = 2, add the element at previous 1st row-0th column with previous 1st row-1st column, result[1][0] + result[1][1] = 1 + 1 = 2, see Pascal's triangle image 
-      result[i][j] = result[i - 1][j - 1] + result[i - 1][j];   
+      result[i][j] = result[i - 1][j - 1] + result[i - 1][j];
       // [1, 2, 1]
     }
   }
