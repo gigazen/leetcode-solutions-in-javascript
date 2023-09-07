@@ -5,7 +5,7 @@
 var generate = function (numRows) {
   let result = [];
   for (let i = 0; i < numRows; i++) {
-    result[i] = new Array(i + 1);
+    result[i] = [];
     // result[2] = [undefined, undefined, undefined]
 
     result[i][0] = 1;
