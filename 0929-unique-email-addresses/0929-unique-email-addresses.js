@@ -2,26 +2,26 @@
  * @param {string[]} emails
  * @return {number}
  */
-var numUniqueEmails = function(emails) {
-    let set  = new Set();
-    let result = 0
-    for(let i of emails){
-        let arr = i.split("@");
-        let localName = '';
-        for(let k of arr[0]){
-            if(k == '+'){
-                break;
-            }else if(k === '.'){
-                continue;
-            }else{
-                localName += k
-            }
-        }
-        localName +='@' + arr[1];
-        if(!set.has(localName)){
-            set.add(localName)
-            result++;
-        }
+var numUniqueEmails = function (emails) {
+  let uniqueEmails = new Set();
+
+  for (let email of emails) {
+    let arr = email.split("@");
+    let currentEmail = "";
+
+    for (let char of arr[0]) {
+      if (char === "+") {
+        break;
+      } else if (char === ".") {
+        continue;
+      } else {
+        currentEmail += char;
+      }
     }
-    return result
+
+    currentEmail += "@" + arr[1];
+    uniqueEmails.add(currentEmail);
+  }
+
+  return uniqueEmails.size;
 };
