@@ -2,26 +2,19 @@
  * @param {string[]} emails
  * @return {number}
  */
-var numUniqueEmails = function (emails) {
-  let uniqueEmails = new Set();
-
+var numUniqueEmails = function(emails) {
+  const res = new Set();
   for (let email of emails) {
-    let arr = email.split("@");
-    let currentEmail = "";
-
-    for (let char of arr[0]) {
-      if (char === "+") {
-        break;
-      } else if (char === ".") {
-        continue;
-      } else {
-        currentEmail += char;
-      }
+    if (email.includes('+')) {
+      let pIdx = email.indexOf('+')
+      let aIdx = email.indexOf('@')
+      email = email.substr(0, pIdx) + email.substr(aIdx)
     }
-
-    currentEmail += "@" + arr[1];
-    uniqueEmails.add(currentEmail);
+    email = email.split('@');
+    email[0].includes('.') && 
+      (email[0] = email[0].replace(/[.]/g, ''))
+    email = email.join('@')
+    res.add(email)
   }
-
-  return uniqueEmails.size;
+  return res.size
 };
