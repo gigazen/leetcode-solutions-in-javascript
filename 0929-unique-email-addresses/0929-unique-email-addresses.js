@@ -6,20 +6,11 @@ var numUniqueEmails = function (emails) {
   let uniqueEmails = new Set();
 
   for (let email of emails) {
-    let arr = email.split("@");
-    let currentEmail = "";
+    let arrOfEmailParts = email.split("@");
 
-    for (let char of arr[0]) {
-      if (char === "+") {
-        break;
-      } else if (char === ".") {
-        continue;
-      } else {
-        currentEmail += char;
-      }
-    }
+    let cleanedLocal = arrOfEmailParts[0].split("+")[0].split(".").join("");
 
-    currentEmail += "@" + arr[1];
+    let currentEmail = `${cleanedLocal}@${arrOfEmailParts[1]}`;
     uniqueEmails.add(currentEmail);
   }
 
