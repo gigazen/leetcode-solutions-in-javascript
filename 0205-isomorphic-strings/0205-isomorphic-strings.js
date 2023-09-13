@@ -8,22 +8,25 @@ function isIsomorphic(s, t) {
     return false;
   }
 
-  const sToTMap = {};
-  const tToSMap = {};
+  const sToTMap = new Map();
+  const tToSMap = new Map();
 
   for (let i = 0; i < s.length; i++) {
-    if (!sToTMap[s[i]]) {
-      sToTMap[s[i]] = t[i];
+    const charS = s[i];
+    const charT = t[i];
+
+    if (!sToTMap.has(charS)) {
+      sToTMap.set(charS, charT);
     } else {
-      if (sToTMap[s[i]] !== t[i]) {
+      if (sToTMap.get(charS) !== charT) {
         return false;
       }
     }
 
-    if (!tToSMap[t[i]]) {
-      tToSMap[t[i]] = s[i];
+    if (!tToSMap.has(charT)) {
+      tToSMap.set(charT, charS);
     } else {
-      if (tToSMap[t[i]] !== s[i]) {
+      if (tToSMap.get(charT) !== charS) {
         return false;
       }
     }
