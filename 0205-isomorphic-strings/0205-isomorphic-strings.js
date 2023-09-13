@@ -3,11 +3,7 @@
  * @param {string} t
  * @return {boolean}
  */
-function isIsomorphic(s, t) {
-  if (s.length !== t.length) {
-    return false;
-  }
-
+var isIsomorphic = function (s, t) {
   const sToTMap = new Map();
   const tToSMap = new Map();
 
@@ -15,22 +11,12 @@ function isIsomorphic(s, t) {
     const charS = s[i];
     const charT = t[i];
 
-    if (!sToTMap.has(charS)) {
+    if (!sToTMap.has(charS) && !tToSMap.has(charT)) {
       sToTMap.set(charS, charT);
-    } else {
-      if (sToTMap.get(charS) !== charT) {
-        return false;
-      }
-    }
-
-    if (!tToSMap.has(charT)) {
       tToSMap.set(charT, charS);
-    } else {
-      if (tToSMap.get(charT) !== charS) {
-        return false;
-      }
-    }
+    } else if (sToTMap.get(charS) !== charT || tToSMap.get(charT !== charS))
+      return false;
   }
 
   return true;
-}
+};
