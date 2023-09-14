@@ -3,17 +3,14 @@
  * @param {number} n
  * @return {boolean}
  */
-var canPlaceFlowers = function (flowerbed, n) {
-  for (let i = 0; i < flowerbed.length && n !== 0; i++) {
-    if (
-      flowerbed[i] === 0 &&
-      flowerbed[i - 1] !== 1 &&
-      flowerbed[i + 1] !== 1
-    ) {
-      n--;
-      i++;
+var canPlaceFlowers = function(arr, n) {
+    if(n===0)return true;
+    for(let i=0; i<arr.length; i++){
+        if( !arr[i-1] && !arr[i] && !arr[i+1] ){
+            arr[i] = 1
+           n--;
+        }
+        if(n===0)return true
     }
-  }
-
-  return n === 0;
+    return false
 };
