@@ -3,20 +3,22 @@
  * @return {number}
  */
 var majorityElement = function (nums) {
-  let map = new Map();
-  let arrLength = nums.length;
-  let majorityThreshold = arrLength / 2;
+  // begin with any arbitrary candidate and have a counter for the majority candidate
+  let candidate = null;
+  let count = 0;
 
-  if (arrLength <= 2) return nums[0];
-
-  for (let i = 0; i < arrLength; i++) {
-    let currElement = nums[i];
-    if (!map.has(currElement)) {
-      map.set(currElement, 1);
+  for (let currEl of nums) {
+    if (count == 0) {
+      candidate = currEl;
+      count = 1;
+    } else if (currEl === candidate) {
+      count++;
     } else {
-      map.set(currElement, map.get(currElement) + 1);
+      // cancel out each occurence of an element if we encounter with a different element
+      count--;
     }
-
-    if (map.get(currElement) > majorityThreshold) return currElement;
   }
+
+  // if an element exists which appears more than n/2 times then that element will be the final candidate
+  return candidate;
 };
