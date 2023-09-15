@@ -13,9 +13,7 @@ var majorityElement = function (nums) {
     } else {
       map.set(currElement, map.get(currElement) + 1);
     }
-  }
 
-  for (let [key, value] of map.entries()) {
-    if (value > minNumberOfTimes) return key;
+    if (map.get(currElement) > minNumberOfTimes) return currElement;
   }
 };
