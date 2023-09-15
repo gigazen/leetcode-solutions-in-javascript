@@ -2,16 +2,21 @@
  * @param {number[]} nums
  * @return {number}
  */
-var majorityElement = function(nums) {
-    let count = 0;
-    let candidate = null;
+var majorityElement = function (nums) {
+  let map = new Map();
+  let arrLength = nums.length;
+  let majorityThreshold = arrLength / 2;
 
-    for(let num of nums) {
-        if(count == 0) {
-            candidate = num;
-        }
-        count += (num === candidate) ? 1 : -1;
+  if (arrLength <= 2) return nums[0];
+
+  for (let i = 0; i < arrLength; i++) {
+    let currElement = nums[i];
+    if (!map.has(currElement)) {
+      map.set(currElement, 1);
+    } else {
+      map.set(currElement, map.get(currElement) + 1);
     }
 
-    return candidate;
+    if (map.get(currElement) > majorityThreshold) return currElement;
+  }
 };
