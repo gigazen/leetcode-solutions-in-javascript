@@ -2,32 +2,14 @@
  * @param {string} text
  * @return {number}
  */
-const maxNumberOfBalloons = (text) => {
-  let obj = {},
-    balloonCount = 0;
+var maxNumberOfBalloons = function (text) {
+  let hashMap = { b: 0, a: 0, l: 0, o: 0, n: 0 };
 
   for (let char of text) {
-    if (obj[char] === undefined) {
-      obj[char] = 1;
-    } else {
-      obj[char]++;
-    }
+    hashMap[char]++;
   }
 
-  while (
-    obj["b"] > 0 &&
-    obj["a"] > 0 &&
-    obj["l"] > 1 &&
-    obj["o"] > 1 &&
-    obj["n"] > 0
-  ) {
-    balloonCount++;
-    obj["b"]--;
-    obj["a"]--;
-    obj["l"] -= 2;
-    obj["o"] -= 2;
-    obj["n"]--;
-  }
-
-  return balloonCount;
+  return Math.floor(
+    Math.min(hashMap.b, hashMap.a, hashMap.l / 2, hashMap.o / 2, hashMap.n)
+  );
 };
