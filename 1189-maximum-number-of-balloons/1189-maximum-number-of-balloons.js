@@ -17,14 +17,13 @@ var maxNumberOfBalloons = function (text) {
     }
   }
 
-  let arr = [];
-  for (let [key, value] of map.entries()) {
-    if (key === "l" || key === "o") {
-      arr.push(Math.floor(value / 2));
-    } else {
-      arr.push(value);
-    }
-  }
-
-  return Math.min(...arr);
+  return Math.floor(
+    Math.min(
+      map.get("b"),
+      map.get("a"),
+      map.get("l") / 2,
+      map.get("o") / 2,
+      map.get("n")
+    )
+  );
 };
