@@ -5,7 +5,7 @@
  */
 var canPlaceFlowers = function (flowerbed, n) {
   for (let i = 0; i < flowerbed.length && n !== 0; i++) {
-    // `!== 1` valid for 0 alongwith undefined also ie it includes cases when flowerbed starts or ends with 0 but `=== 0` cannot include undefined
+    // below `!== 1` checks for both 0 and undefined also ie it includes cases when flowerbed starts or ends with 0, but `=== 0` cannot include undefined checking that's why not used 
     if (
       flowerbed[i] === 0 &&
       flowerbed[i - 1] !== 1 &&
