@@ -4,20 +4,26 @@
  * @return {number[]}
  */
 var nextGreaterElement = function (nums1, nums2) {
-  // map to hold nums2 element - next greater element
+  // map to hold next greater elements from nums2 array
   let map = new Map();
-  // stack array to push last element from nums2 and pop it only when element greater than last element is found
+  // stack array to calculate next greater element of current element of the second array 
+  // if stack length is non-zero and current element is greater than stack top element then we got the next greater element of current element, to get stack top element `stack[stack.length - 1]` or `stack.at(-1)` can be used
   let stack = [];
 
   for (let num of nums2) {
-    while (stack.length && stack[stack.length - 1] < num) {
+    while (stack.length && num > stack[stack.length - 1]) {
       map.set(stack.pop(), num);
     }
     stack.push(num);
   }
 
   // for nums2 = [1, 3, 0, 4, 2] in above loop :
-  // 1 → X, [1]; 3 → 1-3, [3]; 0 → X, [3, 0]; 4 → 0-4, 3-4, [4]; 2 → [4, 2]. So 1-3; 0-4; 3-4 in map
+  // 1 → m[[X]], s[1] 
+  // 3 → 3 > 1 → m[[1-3]], s[3] 
+  // 0 → 0 < 3 → m[[X]], s[3, 0] 
+  // 4 → 4 > 0 → m[[0-4]], s[3]; 4 > 3 → m[[3-4]], s[4] 
+  // 2 → 2 < 4 → m[[X]], s[4, 2]. 
+  // So [[1-3], [0-4], [3-4]] in map
 
   // output array
   let ans = [];
