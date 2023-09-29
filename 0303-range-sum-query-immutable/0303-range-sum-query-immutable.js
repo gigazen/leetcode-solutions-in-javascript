@@ -3,21 +3,22 @@
  */
 class NumArray {
   constructor(nums) {
-    this.prefixSumArr = nums;
+    this.runningSumElArr = nums;
 
-    // create an array whose elements are running sum of all previous elements
+    // create an array whose elements are running sum of all previous elements, start loop from index 1 as nothing to add before index 0, put the big calculation inside constructor for better performance
     for (let i = 1; i < nums.length; i++) {
-      this.prefixSumArr[i] = this.prefixSumArr[i - 1] + nums[i];
+      this.runningSumElArr[i] += this.runningSumElArr[i - 1];
     }
   }
 
-    // calculate the sum of elements from left to right index, inclusive
-    // if left index is <= 0 then return sum from beginning to right index of prefix array but if left index is > 0 then return sum from left index to right index of prefix array, have to eliminate sum upto left - 1 index 
+  // method to calculate the sum of elements from left to right index, inclusive
+  // if left index is -ve or 0 then return sum from beginning to given right index of runningSumElArr, and if left index is +ve then return sum from that left index to the given right index of runningSumElArr
+  // for that have to subtract running sum upto left - 1 index from right index running sum
   sumRange(left, right) {
     if (left <= 0) {
-      return this.prefixSumArr[right];
+      return this.runningSumElArr[right];
     } else {
-      return this.prefixSumArr[right] - this.prefixSumArr[left - 1];
+      return this.runningSumElArr[right] - this.runningSumElArr[left - 1];
     }
   }
 }
