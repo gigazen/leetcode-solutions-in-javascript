@@ -6,7 +6,9 @@ var maxNumberOfBalloons = function (text) {
   let hashMap = { b: 0, a: 0, l: 0, o: 0, n: 0 };
 
   for (let char of text) {
-    hashMap[char]++;
+    if (hashMap[char] !== undefined) {
+      hashMap[char]++;
+    }
   }
 
   return Math.floor(
