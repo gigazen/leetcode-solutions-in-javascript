@@ -4,8 +4,8 @@
  * @return {boolean}
  */
 var isIsomorphic = function (s, t) {
+  // edge cases : check for total length of s and t, also check for number of unique characters in s and t
   if (s.length !== t.length) return false;
-  if (new Set(s).size !== new Set(t).size) return false;
 
   let sToTMap = new Map();
 
@@ -20,5 +20,5 @@ var isIsomorphic = function (s, t) {
     if (sToTMap.get(charS) !== charT) return false;
   }
 
-  return true;
+  return sToTMap.size === new Set(sToTMap.values()).size;
 };
