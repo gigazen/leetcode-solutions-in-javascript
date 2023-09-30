@@ -4,19 +4,20 @@
  * @return {boolean}
  */
 var isIsomorphic = function (s, t) {
+  if (s.length !== t.length) return false;
+  if (new Set(s).size !== new Set(t).size) return false;
+
   let sToTMap = new Map();
-  let tToSMap = new Map();
 
   for (let i = 0; i < s.length; i++) {
     let charS = s[i];
     let charT = t[i];
 
-    if (!sToTMap.has(charS) && !tToSMap.has(charT)) {
+    if (!sToTMap.has(charS)) {
       sToTMap.set(charS, charT);
-      tToSMap.set(charT, charS);
-    } else if (sToTMap.get(charS) !== charT || tToSMap.get(charT) !== charS) {
-      return false;
     }
+
+    if (sToTMap.get(charS) !== charT) return false;
   }
 
   return true;
