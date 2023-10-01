@@ -6,6 +6,9 @@
 var wordPattern = function (pattern, s) {
   let strArr = s.split(" ");
 
+  // edge cases: 
+  // check whether lengths of string pattern and array from string are equal or not
+  // also check whether number of unique characters in string pattern and array from string are equal or not
   if (pattern.length !== strArr.length) return false;
   if (new Set(pattern).size !== new Set(strArr).size) return false;
 
