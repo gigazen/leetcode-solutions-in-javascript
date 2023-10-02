@@ -1,34 +1,17 @@
 class MyHashSet {
   constructor() {
-    this.arr = [];
+    this.vec = new Array(1000001).fill(false);
   }
 
   add(key) {
-    let count = 0;
-    for (let i = 0; i < this.arr.length; i++) {
-      if (this.arr[i] !== key) count++;
-    }
-
-    if (count === this.arr.length) {
-      this.arr.push(key);
-    }
+    this.vec[key] = true;
   }
 
   remove(key) {
-    for (let i = 0; i < this.arr.length; i++) {
-      if (this.arr[i] === key) {
-        this.arr.splice(i, 1);
-      }
-    }
+    this.vec[key] = false;
   }
 
   contains(key) {
-    for (let i = 0; i < this.arr.length; i++) {
-      if (this.arr[i] === key) {
-        return true;
-      }
-    }
-
-    return false;
+    return this.vec[key] === true;
   }
 }
