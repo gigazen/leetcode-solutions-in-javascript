@@ -1,17 +1,18 @@
 class MyHashSet {
   constructor() {
-    this.vec = new Array(1000001).fill(false);
+    this.set = new Set();
   }
 
   add(key) {
-    this.vec[key] = true;
+    this.set.add(key);
   }
 
   remove(key) {
-    this.vec[key] = false;
+    this.set.delete(key);
   }
 
   contains(key) {
-    return this.vec[key] === true;
+    return this.set.has(key);
   }
 }
+
