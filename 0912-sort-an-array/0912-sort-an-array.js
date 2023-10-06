@@ -3,40 +3,36 @@
  * @return {number[]}
  */
 var sortArray = function (nums) {
-    // Helper function to perform the partitioning step of quicksort
-    const partition = (arr, low, high) => {
-        const pivotIndex = Math.floor(Math.random() * (high - low + 1)) + low;
-        const pivot = arr[pivotIndex];
-        
-        // Move the pivot to the end
-        [arr[pivotIndex], arr[high]] = [arr[high], arr[pivotIndex]];
-        
-        let i = low - 1;
+  quickSort(nums, 0, nums.length - 1);
+  return nums;
 
-        for (let j = low; j < high; j++) {
-            if (arr[j] < pivot) {
-                i++;
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-        }
+  function quickSort(nums, left, right) {
+    if (left < right) {
+      let pIndex = partition(nums, left, right);
 
-        // Move the pivot back to its final place
-        [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
-        
-        return i + 1;
-    };
+      quickSort(nums, left, pIndex - 1);
+      quickSort(nums, pIndex, right);
+    }
+  }
 
-    // Helper function to perform the quicksort
-    const quicksort = (arr, low, high) => {
-        if (low < high) {
-            const pivotIndex = partition(arr, low, high);
-            quicksort(arr, low, pivotIndex - 1);
-            quicksort(arr, pivotIndex + 1, high);
-        }
-    };
+  function partition(arr, left, right) {
+    // randomly select pivot element
+    let pivot = nums[Math.floor(left + Math.random() * (right - left + 1))];
 
-    // Perform quicksort on the input array
-    quicksort(nums, 0, nums.length - 1);
-
-    return nums;
+    // two-pointer approach
+    while (left <= right) {
+      while (arr[left] < pivot) {
+        left++;
+      }
+      while (arr[right] > pivot) {
+        right--;
+      }
+      if (left <= right) {
+        [arr[left], arr[right]] = [arr[right], arr[left]];
+        left++;
+        right--;
+      }
+    }
+    return left;
+  }
 };
