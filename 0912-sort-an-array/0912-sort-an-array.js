@@ -3,41 +3,40 @@
  * @return {number[]}
  */
 var sortArray = function (nums) {
-    // Function to perform randomized quicksort
-    const randomizedQuickSort = (arr, low, high) => {
-        if (low < high) {
-            const pivotIndex = partition(arr, low, high);
-            randomizedQuickSort(arr, low, pivotIndex - 1);
-            randomizedQuickSort(arr, pivotIndex + 1, high);
-        }
-    };
-
-    // Function to partition the array
+    // Helper function to perform the partitioning step of quicksort
     const partition = (arr, low, high) => {
-        const randomIndex = Math.floor(Math.random() * (high - low + 1)) + low;
-        swap(arr, randomIndex, high);
-
-        const pivot = arr[high];
+        const pivotIndex = Math.floor(Math.random() * (high - low + 1)) + low;
+        const pivot = arr[pivotIndex];
+        
+        // Move the pivot to the end
+        [arr[pivotIndex], arr[high]] = [arr[high], arr[pivotIndex]];
+        
         let i = low - 1;
 
         for (let j = low; j < high; j++) {
             if (arr[j] < pivot) {
                 i++;
-                swap(arr, i, j);
+                [arr[i], arr[j]] = [arr[j], arr[i]];
             }
         }
 
-        swap(arr, i + 1, high);
+        // Move the pivot back to its final place
+        [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+        
         return i + 1;
     };
 
-    // Function to swap elements in the array
-    const swap = (arr, i, j) => {
-        const temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+    // Helper function to perform the quicksort
+    const quicksort = (arr, low, high) => {
+        if (low < high) {
+            const pivotIndex = partition(arr, low, high);
+            quicksort(arr, low, pivotIndex - 1);
+            quicksort(arr, pivotIndex + 1, high);
+        }
     };
 
-    randomizedQuickSort(nums, 0, nums.length - 1);
+    // Perform quicksort on the input array
+    quicksort(nums, 0, nums.length - 1);
+
     return nums;
 };
