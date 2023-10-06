@@ -2,45 +2,37 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-var sortArray = function(nums) {
-  // Quick sort function
-  const quickSort = (nums, start, end) => {
-    // If start and end index cross, array is sorted
-    if (start >= end) {
-      return;
-    }
+var sortArray = function (nums) {
+  quickSort(nums, 0, nums.length - 1);
+  return nums;
 
-    // Set left and right pointers
-    let left = start, right = end;
+  function quickSort(nums, left, right) {
+    if (left >= right) return;
 
-    // Choose pivot element
-    let pivot = nums[Math.floor((start + end) / 2)];
+    let index = partition(nums, left, right);
 
-    // Partition array
-    while (left <= right) {
-      while (left <= right && nums[left] < pivot) {
-        left++;
-      }
-      while (left <= right && nums[right] > pivot) {
-        right--;
-      }
-      if (left <= right) {
-        let temp = nums[left];
-        nums[left] = nums[right];
-        nums[right] = temp;
-        left++;
-        right--;
-      }
-    }
-
-    // Recursively sort left and right partitions
-    quickSort(nums, start, right);
-    quickSort(nums, left, end);
+    quickSort(nums, left, index - 1);
+    quickSort(nums, index, right);
   }
 
-  // Call quick sort function with initial start and end indices
-  quickSort(nums, 0, nums.length - 1);
-  
-  // Return sorted array
-  return nums;
-}
+  function partition(arr, leftIndex, rightIndex) {
+    let pivot =
+      nums[
+        Math.floor(leftIndex + Math.random() * (rightIndex - leftIndex + 1))
+      ];
+    while (leftIndex <= rightIndex) {
+      while (arr[leftIndex] < pivot) {
+        leftIndex++;
+      }
+      while (arr[rightIndex] > pivot) {
+        rightIndex--;
+      }
+      if (leftIndex <= rightIndex) {
+        [arr[leftIndex], arr[rightIndex]] = [arr[rightIndex], arr[leftIndex]];
+        leftIndex++;
+        rightIndex--;
+      }
+    }
+    return leftIndex;
+  }
+};
