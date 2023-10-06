@@ -3,36 +3,41 @@
  * @return {number[]}
  */
 var sortArray = function (nums) {
-  quickSort(nums, 0, nums.length - 1);
-  return nums;
+    // Function to perform randomized quicksort
+    const randomizedQuickSort = (arr, low, high) => {
+        if (low < high) {
+            const pivotIndex = partition(arr, low, high);
+            randomizedQuickSort(arr, low, pivotIndex - 1);
+            randomizedQuickSort(arr, pivotIndex + 1, high);
+        }
+    };
 
-  function quickSort(nums, left, right) {
-    if (left >= right) return;
+    // Function to partition the array
+    const partition = (arr, low, high) => {
+        const randomIndex = Math.floor(Math.random() * (high - low + 1)) + low;
+        swap(arr, randomIndex, high);
 
-    let index = partition(nums, left, right);
+        const pivot = arr[high];
+        let i = low - 1;
 
-    quickSort(nums, left, index - 1);
-    quickSort(nums, index, right);
-  }
+        for (let j = low; j < high; j++) {
+            if (arr[j] < pivot) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
 
-  function partition(arr, leftIndex, rightIndex) {
-    let pivot =
-      nums[
-        Math.floor(leftIndex + Math.random() * (rightIndex - leftIndex + 1))
-      ];
-    while (leftIndex <= rightIndex) {
-      while (arr[leftIndex] < pivot) {
-        leftIndex++;
-      }
-      while (arr[rightIndex] > pivot) {
-        rightIndex--;
-      }
-      if (leftIndex <= rightIndex) {
-        [arr[leftIndex], arr[rightIndex]] = [arr[rightIndex], arr[leftIndex]];
-        leftIndex++;
-        rightIndex--;
-      }
-    }
-    return leftIndex;
-  }
+        swap(arr, i + 1, high);
+        return i + 1;
+    };
+
+    // Function to swap elements in the array
+    const swap = (arr, i, j) => {
+        const temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    };
+
+    randomizedQuickSort(nums, 0, nums.length - 1);
+    return nums;
 };
