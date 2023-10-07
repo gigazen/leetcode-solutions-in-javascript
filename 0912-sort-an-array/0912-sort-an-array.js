@@ -42,5 +42,3 @@ var sortArray = function (nums) {
   }
 };
 
-console.log(sortArray([5, 2, 3, 1])); // [1, 2, 3, 5]
-console.log(sortArray([5, 1, 1, 2, 0, 0])); // RangeError: Maximum call stack size exceeded
