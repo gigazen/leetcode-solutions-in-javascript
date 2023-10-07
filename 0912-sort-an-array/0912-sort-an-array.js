@@ -3,29 +3,26 @@
  * @return {number[]}
  */
 var sortArray = function(nums) {
-    
-    function quickSortHelper(nums, start, end) {
-        if (start >= end) return nums
-    
-        var pivotValue = nums[start]
-        var smaller = start
-        for (var i = start + 1; i <= end; i++) {
-            var bigger = i
-            if (nums[bigger] < pivotValue) {
-                smaller++
-                var smallerValue = nums[bigger]
-                nums[bigger] = nums[smaller]
-                nums[smaller] = smallerValue
-            }
+    if (nums.length < 2) return nums
+    quickSort(nums, 0, nums.length-1)
+    return nums
+}
+
+var quickSort = (nums, start, end) => {
+    if (start >= end) return
+    let left = start, right=end
+    let pivot = nums[Math.floor((start+end)/2)]
+    while (left <= right) {
+        while (nums[left] < pivot) left++
+        while (nums[right] > pivot) right--
+        if (left <= right) {
+            let temp = nums[left]
+            nums[left] = nums[right]
+            nums[right] = temp
+            left++
+            right--
         }
-        var smallerCache = nums[smaller]
-        nums[smaller] = nums[start]
-        nums[start] = smallerCache
-        
-        quickSortHelper(nums, start, smaller - 1)
-        quickSortHelper(nums, smaller + 1, end)
-        return nums
     }
-    
-    return quickSortHelper(nums, 0, nums.length - 1)
-};
+    quickSort(nums,start,right)
+    quickSort(nums,left,end)
+}
