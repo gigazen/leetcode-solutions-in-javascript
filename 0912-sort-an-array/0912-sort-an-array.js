@@ -8,31 +8,36 @@ var sortArray = function (nums) {
 
   function quickSort(nums, left, right) {
     if (left < right) {
-      let pIndex = partition(nums, left, right);
+      let pivotIndex = partition(nums, left, right);
 
-      quickSort(nums, left, pIndex - 1);
-      quickSort(nums, pIndex, right);
+      quickSort(nums, left, pivotIndex - 1);
+      quickSort(nums, pivotIndex + 1, right);
     }
   }
 
   function partition(arr, left, right) {
-    // randomly select pivot element
-    let pivot = nums[Math.floor(left + Math.random() * (right - left + 1))];
+    // randomly select an index and swap element at that index and at right index, make right index element as pivot element
+    let randomIndex = Math.floor(left + Math.random() * (right - left + 1));
+    [nums[randomIndex], nums[right]] = [nums[right], nums[randomIndex]];
+
+    let pivot = right;
+    let j = left;
+    let i = left - 1;
 
     // two-pointer approach
-    while (left <= right) {
-      while (arr[left] < pivot) {
-        left++;
-      }
-      while (arr[right] > pivot) {
-        right--;
-      }
-      if (left <= right) {
-        [arr[left], arr[right]] = [arr[right], arr[left]];
-        left++;
-        right--;
+    while (j <= pivot) {
+      if (nums[j] < nums[pivot]) {
+        i++;
+        [nums[i], nums[j]] = [nums[j], nums[i]];
+        j++;
+      } else {
+        j++;
       }
     }
-    return left;
+
+    i++;
+    [nums[i], nums[pivot]] = [nums[pivot], nums[i]];
+
+    return i;
   }
 };
