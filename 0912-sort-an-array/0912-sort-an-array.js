@@ -4,25 +4,17 @@
  */
 var sortArray = function(nums) {
     if (nums.length < 2) return nums
-    quickSort(nums, 0, nums.length-1)
-    return nums
-}
+    let mid = Math.floor(nums.length/2)
+    let left = nums.slice(0, mid)
+    let right = nums.slice(mid)
+    return merge(sortArray(left), sortArray(right))
+};
 
-var quickSort = (nums, start, end) => {
-    if (start >= end) return
-    let left = start, right=end
-    let pivot = nums[Math.floor((start+end)/2)]
-    while (left <= right) {
-        while (nums[left] < pivot) left++
-        while (nums[right] > pivot) right--
-        if (left <= right) {
-            let temp = nums[left]
-            nums[left] = nums[right]
-            nums[right] = temp
-            left++
-            right--
-        }
+var merge = (arr1, arr2) => {
+    let arr = []
+    while (arr1.length && arr2.length) {
+        if (arr1[0] <= arr2[0]) arr.push(arr1.shift())
+        else arr.push(arr2.shift())
     }
-    quickSort(nums,start,right)
-    quickSort(nums,left,end)
+    return [...arr, ...arr1, ...arr2]
 }
