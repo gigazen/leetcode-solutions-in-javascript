@@ -3,39 +3,31 @@
  * @return {number[]}
  */
 var sortArray = function (nums) {
-  quickSort(nums, 0, nums.length - 1);
-  return nums;
+  return mergeSort(nums);
 };
 
-function quickSort(nums, left, right) {
-  if (left < right) {
-    let pivotIndex = partition(nums, left, right);
+function mergeSort(nums) {
+  if (nums.length < 2) return nums;
 
-    quickSort(nums, left, pivotIndex);
-    quickSort(nums, pivotIndex + 1, right);
-  }
+  let middle = Math.floor(nums.length / 2);
+  let left = nums.slice(0, middle);
+  let right = nums.slice(middle);
+  return merge(mergeSort(left), mergeSort(right));
 }
 
-function partition(arr, left, right) {
-  // randomly select pivot element
-  let randomPivotIndex = Math.floor(left + Math.random() * (right - left + 1));
-  let pivot = arr[randomPivotIndex];
+function merge(left, right) {
+  let sortedArr = [];
+  let l = 0;
+  let r = 0;
 
-  // Swap the pivot element with the element at the right index
-  [arr[randomPivotIndex], arr[right]] = [arr[right], arr[randomPivotIndex]];
-
-  let i = left;
-
-  for (let j = left; j < right; j++) {
-    if (arr[j] < pivot) {
-      // Swap elements at i and j if arr[j] is less than pivot
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-      i++;
+  while (l < left.length && r < right.length) {
+    if (left[l] <= right[r]) {
+      sortedArr.push(left[l]);
+      l++;
+    } else {
+      sortedArr.push(right[r]);
+      r++;
     }
   }
-
-  // Swap pivot element back to its final position
-  [arr[i], arr[right]] = [arr[right], arr[i]];
-
-  return i;
+  return [...sortedArr, ...left.slice(l), ...right.slice(r)];
 }
