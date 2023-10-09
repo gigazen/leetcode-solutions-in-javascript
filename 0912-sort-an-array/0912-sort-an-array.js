@@ -3,31 +3,33 @@
  * @return {number[]}
  */
 var sortArray = function (nums) {
-  return mergeSort(nums);
-};
+  quickSort(nums, 0, nums.length - 1);
+  return nums;
 
-function mergeSort(nums) {
-  if (nums.length < 2) return nums;
+  function quickSort(nums, left, right) {
+    if (left >= right) return;
 
-  let middle = Math.floor(nums.length / 2);
-  let left = nums.slice(0, middle);
-  let right = nums.slice(middle);
-  return merge(mergeSort(left), mergeSort(right));
-}
+    let index = partition(nums, left, right);
 
-function merge(left, right) {
-  let sortedArr = [];
-  let l = 0;
-  let r = 0;
-
-  while (l < left.length && r < right.length) {
-    if (left[l] <= right[r]) {
-      sortedArr.push(left[l]);
-      l++;
-    } else {
-      sortedArr.push(right[r]);
-      r++;
-    }
+    quickSort(nums, left, index - 1);
+    quickSort(nums, index, right);
   }
-  return [...sortedArr, ...left.slice(l), ...right.slice(r)];
-}
+
+  function partition(arr, l, r) {
+    let pivot = nums[Math.floor(l + Math.random() * (r - l + 1))];
+    while (l <= r) {
+      while (arr[l] < pivot) {
+        l++;
+      }
+      while (arr[r] > pivot) {
+        r--;
+      }
+      if (l <= r) {
+        [arr[l], arr[r]] = [arr[r], arr[l]];
+        l++;
+        r--;
+      }
+    }
+    return l;
+  }
+};
