@@ -2,32 +2,40 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-function sortArray(nums) {
-  sort(nums);
-  return nums;
+var sortArray = function(nums) {
+    mergeSort(nums, 0 , nums.length-1)
+    return nums
 };
 
-function sort(nums) {
-  mergeSort(nums, [], 0, nums.length - 1);
-}
+const mergeSort = (array, left, right) => {
+    if(left < right){
+        const mid = Math.floor((left + right) / 2);
+        mergeSort(array, left, mid);
+        mergeSort(array, mid+1, right);
+        merge(array, left, mid, right);
+    }
+};
 
-function mergeSort(nums, aux, lo, hi) {
-  if (lo >= hi) return;
-  const mid = Math.floor((hi - lo) / 2) + lo;
-  mergeSort(nums, aux, lo, mid);
-  mergeSort(nums, aux, mid + 1, hi);
-  merge(nums, aux, lo, mid, hi);
-}
+const merge = (array, left, mid, right) => {
+    const leftArr = [], rightArr = [];
+    const M = mid - left + 1 , N = right - mid;
 
-function merge(nums, aux, lo, mid, hi) {
-  for (let i = lo; i <= hi; i++) {
-    aux[i] = nums[i];
-  }
+    for (let index = 0; index < M; index++)
+        leftArr.push(array[left + index]);
+    for (let index = 0; index < N; index++)
+        rightArr.push(array[mid + 1 + index]);
   
-  for (let i = lo, j = mid + 1, k = lo; k <= hi; k++) {
-    if (i > mid) nums[k] = aux[j++];
-    else if (j > hi) nums[k] = aux[i++];
-    else if (aux[i] < aux[j]) nums[k] = aux[i++];
-    else nums[k] = aux[j++];
-  }
-}
+    let i = 0, j = 0, k = left;
+
+    while (i < M && j < N) {
+        if (leftArr[i] <= rightArr[j])
+            array[k++] = leftArr[i++];
+        else 
+            array[k++] = rightArr[j++];
+    }
+
+    while (i < M) array[k++] = leftArr[i++];
+  
+    while (j < N) array[k++] = rightArr[j++];
+
+};
