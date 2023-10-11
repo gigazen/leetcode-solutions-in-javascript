@@ -7,36 +7,25 @@ function sortArray(nums) {
   return nums;
 }
 
-// get the middle index of current subarray and recursively call divideAndMergeSort() fn on subarrays based on the middle index until one or empty element subarrays are reached
-function divideAndMergeSort(nums, auxArr, left, right) {
-  // base case: when left and right indexes are same ie subarray has just one element or is empty then stop sorting as one element subarray is already sorted
-  if (left >= right) return;
+function divideAndMergeSort(nums, aux, lo, hi) {
+  if (lo >= hi) return;
 
-  // divide: calculate middle index of current subarray
-  const middle = Math.floor((right - left) / 2) + left;
-  // recursively call this fn on left and right halves based on the middle index, to again get middle index of each subarray, and recursively call this fn on left and right halves based on the middle index, stop when one or empty element subarrays are reached
-  divideAndMergeSort(nums, auxArr, left, middle);
-  divideAndMergeSort(nums, auxArr, middle + 1, right);
+  const mid = Math.floor((hi - lo) / 2) + lo;
+  divideAndMergeSort(nums, aux, lo, mid);
+  divideAndMergeSort(nums, aux, mid + 1, hi);
 
-  // start merging from one element subarrays using middle index
-  mergeTheSorted(nums, auxArr, left, middle, right);
+  mergeTheSorted(nums, aux, lo, mid, hi);
 }
 
-// *************
-// compare the elements of already sorted subarrays and place the smaller element to the original array
-function mergeTheSorted(nums, auxArr, left, middle, right) {
-  // copy original array elements into an auxiliary array, so that auxiliary array elements can be checked and then placed in original array from beginning
-  for (let i = left; i <= right; i++) {
-    auxArr[i] = nums[i];
+function mergeTheSorted(nums, aux, lo, mid, hi) {
+  for (let i = lo; i <= hi; i++) {
+    aux[i] = nums[i];
   }
 
-  // compare elements in the left and right halves and place the smaller element to the original array
-  for (let i = left, j = middle + 1, k = left; k <= right; k++) {
-    // check whether one of the halves completely processed then elements from other half also get placed
-    if (i > middle) nums[k] = auxArr[j++];
-    else if (j > right) nums[k] = auxArr[i++];
-    // checking and placing of elements of left and right halves start here
-    else if (auxArr[i] < auxArr[j]) nums[k] = auxArr[i++];
-    else nums[k] = auxArr[j++];
+  for (let i = lo, j = mid + 1, k = lo; k <= hi; k++) {
+    if (i > mid) nums[k] = aux[j++];
+    else if (j > hi) nums[k] = aux[i++];
+    else if (aux[i] < aux[j]) nums[k] = aux[i++];
+    else nums[k] = aux[j++];
   }
 }
