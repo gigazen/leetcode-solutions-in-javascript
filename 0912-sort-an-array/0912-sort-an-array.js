@@ -2,30 +2,37 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-function sortArray(nums) {
-  divideAndMergeSort(nums, [], 0, nums.length - 1);
+var sortArray = function (nums) {
+  quickSort(nums, 0, nums.length - 1);
   return nums;
-}
+};
 
-function divideAndMergeSort(nums, aux, lo, hi) {
+function quickSort(nums, lo, hi) {
   if (lo >= hi) return;
 
-  const mid = Math.floor((hi - lo) / 2) + lo;
-  divideAndMergeSort(nums, aux, lo, mid);
-  divideAndMergeSort(nums, aux, mid + 1, hi);
+  let index = partition(nums, lo, hi);
 
-  mergeTheSorted(nums, aux, lo, mid, hi);
+  quickSort(nums, lo, index - 1);
+  quickSort(nums, index, hi);
 }
 
-function mergeTheSorted(nums, aux, lo, mid, hi) {
-  for (let i = lo; i <= hi; i++) {
-    aux[i] = nums[i];
+function partition(arr, lo, hi) {
+  let randomPivotIndex = Math.floor(lo + Math.random() * (hi - lo + 1));
+  let pivot = arr[randomPivotIndex];
+
+  while (lo <= hi) {
+    while (arr[lo] < pivot) {
+      lo++;
+    }
+    while (arr[hi] > pivot) {
+      hi--;
+    }
+    if (lo <= hi) {
+      [arr[lo], arr[hi]] = [arr[hi], arr[lo]];
+      lo++;
+      hi--;
+    }
   }
 
-  for (let i = lo, j = mid + 1, k = lo; k <= hi; k++) {
-    if (i > mid) nums[k] = aux[j++];
-    else if (j > hi) nums[k] = aux[i++];
-    else if (aux[i] < aux[j]) nums[k] = aux[i++];
-    else nums[k] = aux[j++];
-  }
+  return lo;
 }
