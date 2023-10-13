@@ -3,29 +3,15 @@
  * @param {number} k
  * @return {number[]}
  */
-var topKFrequent = function (nums, k) {
-  var map = new Map();
-  var result = [];
-  for (let i = 0; i < nums.length; i++) {
-    map.set(nums[i], map.get(nums[i]) + 1 || 1);
+const topKFrequent = (nums, k) => {
+  const map = new Map(); //! map to count the frequency of the number
+  for (let num of nums) {
+    map.set(num, map.get(num) + 1 || 1);
   }
-
-  var arr = new Array(nums.length);
-  map.forEach((val, key) => {
-    if (arr[val] == undefined) {
-      arr[val] = [key];
-    } else {
-      arr[val].push(key);
-    }
-  });
-
-  for (let i = arr.length - 1; i >= 0; i--) {
-    while (arr[i] !== undefined && arr[i].length !== 0) {
-      result.push(arr[i].pop());
-      k--;
-      if (k == 0) return result;
-    }
+  const result = [];
+  for (let [key, value] of map) {
+    result.push([key, value]); //! we will add the number and its frequency
   }
-
-  return nums;
+  result.sort((a, b) => b[1] - a[1]); //! we will solve with respect to the frequency of the number
+  return result.slice(0, k).map((x) => x[0]); //! we will slice the list with respect to length of k
 };
