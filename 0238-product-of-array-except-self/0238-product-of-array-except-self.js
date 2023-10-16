@@ -3,20 +3,21 @@
  * @return {number[]}
  */
 var productExceptSelf = function(nums) {
-  let result = [];
-  let left = 1;
-  let right = 1;
+  const length = nums.length;
+  const result = new Array(length).fill(1);
 
-  for (let i = 0; i < nums.length; i++) {
-    // compute left product for nums[i]
-    result[i] = left;
-    left *= nums[i];
+  // Calculate the product of elements before the current index
+  let productBefore = 1;
+  for (let i = 0; i < length; i++) {
+    result[i] *= productBefore;
+    productBefore *= nums[i];
   }
 
-  for (let i = nums.length - 1; i >= 0; i--) {
-    // compute right product for nums[i] and multiply it with the left product
-    result[i] *= right;
-    right *= nums[i];
+  // Calculate the product of elements after the current index
+  let productAfter = 1;
+  for (let i = length - 1; i >= 0; i--) {
+    result[i] *= productAfter;
+    productAfter *= nums[i];
   }
 
   return result;
