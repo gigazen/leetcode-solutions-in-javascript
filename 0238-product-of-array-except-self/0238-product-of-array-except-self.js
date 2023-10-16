@@ -3,22 +3,24 @@
  * @return {number[]}
  */
 var productExceptSelf = function(nums) {
-  const length = nums.length;
-  const result = new Array(length).fill(1);
 
-  // Calculate the product of elements before the current index
-  let productBefore = 1;
-  for (let i = 0; i < length; i++) {
-    result[i] *= productBefore;
-    productBefore *= nums[i];
+  let leftArr = [];
+  let leftMultiplication = 1;
+
+  for (let i=0; i < nums.length; i++) {
+    leftArr[i] = leftMultiplication;
+    leftMultiplication *=  nums[i];
   }
+    
+  let rightArr = [];
+  let rightMultiplication = 1;
 
-  // Calculate the product of elements after the current index
-  let productAfter = 1;
-  for (let i = length - 1; i >= 0; i--) {
-    result[i] *= productAfter;
-    productAfter *= nums[i];
+  for (let i=nums.length-1; i >= 0; i--) {
+    rightArr[i] = rightMultiplication;
+    rightMultiplication *= nums[i];
+    rightArr[i] *= leftArr[i]; //this additional step saves us from having another iteration. We can do the multiplication at the spot.
   }
-
-  return result;
+  
+  return rightArr;
+  
 };
