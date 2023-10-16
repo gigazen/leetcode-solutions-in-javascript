@@ -2,31 +2,27 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-var productExceptSelf = function (nums) {
-  let mul = 1;
-  let hasZero = false;
-  let zeroCount = 0;
-
-  for (let i = 0; i < nums.length; i++) {
-    if (nums[i] !== 0) {
-      mul *= nums[i];
-    } else {
-      zeroCount += 1;
-      hasZero = true;
+var productExceptSelf = function(nums) {
+    var product = 1;
+    var counter = false
+    for(let i of nums){
+        if(i !== 0 ){
+            product *= i
+        }else{
+             counter++
+        }
+        if(counter > 1){
+            product = 0;
+            break;
+        }
     }
-  }
-
-  for (let i = 0; i < nums.length; i++) {
-    if (!hasZero) {
-      nums[i] = mul / nums[i];
-    } else if (nums[i] !== 0) {
-      nums[i] = 0;
-    } else if (zeroCount > 1) {
-      nums[i] = 0;
-    } else {
-      nums[i] = mul;
+    
+    for(let i=0; i<nums.length; i++){
+        if(counter == 1 ){
+            nums[i] = (nums[i] == 0) ? product :  0;
+        }else{
+            nums[i] = (nums[i] === 0) ? 0: product / nums[i]
+        }
     }
-  }
-
-  return nums;
+    return nums
 };
