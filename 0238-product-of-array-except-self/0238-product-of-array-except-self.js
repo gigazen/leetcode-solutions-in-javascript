@@ -3,16 +3,21 @@
  * @return {number[]}
  */
 var productExceptSelf = function(nums) {
-    var output = [];
-    var leftMult = 1;
-    var rightMult = 1;
-    for (var i=nums.length - 1; i >= 0; i--) {
-        output[i] = rightMult;
-        rightMult *= nums[i];
+    if (nums === null || nums.length <= 1) {
+        return [];
     }
-    for (var j=0; j < nums.length; j++) {
-        output[j] *= leftMult;
-        leftMult *= nums[j];
+    let n = nums.length;
+    let left = new Array(n), right = new Array(n), res = new Array(n);
+    for (let i = 0; i < n; i++) {
+        left[i] = i > 0 ? nums[i] * left[i-1] : nums[i];
     }
-    return output;
-};
+    for (let i = n-1; i >= 0; i--) {
+        right[i] = i < n-1 ? nums[i] * right[i+1] : nums[i];
+    }
+    for (let i = 1; i < n-1; i++) {
+        res[i] = left[i-1] * right[i+1];
+    }
+    res[0] = right[1];
+    res[n-1] = left[n-2];
+    return res;
+}
