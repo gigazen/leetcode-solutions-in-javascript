@@ -6,7 +6,7 @@ var productExceptSelf = function (nums) {
   if (nums === null || nums.length <= 1) {
     return [];
   }
-    
+
   let runningProdFromLeft = 1,
     runningProdFromRight = 1;
   let result = new Array(nums.length).fill(1);
@@ -21,5 +21,5 @@ var productExceptSelf = function (nums) {
     runningProdFromRight *= nums[i];
   }
 
-  return result; 
+  return result;
 };
