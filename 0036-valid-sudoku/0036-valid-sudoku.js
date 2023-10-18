@@ -28,8 +28,8 @@ var isValidSudoku = function (board) {
       if (colSet[j].has(f)) return false;
       else colSet[j].add(f);
 
-      // each 3 x 3 block check - same x, different i, j → same number → false → otherwise add
-      // formula for relationship between i, j and 3 x 3 block index, x
+      // each 3 × 3 block check - same b, different i, j → same number → false → otherwise add
+      // formula for relationship between i, j and 3 × 3 block index, b
       let x = 3 * Math.floor(i / 3) + Math.floor(j / 3);
       // say, board[4][5] → i=4, j=5 → x=1*3+1=4 → board[4][5] is in 4th block
       if (blockSet[x].has(f)) return false;
