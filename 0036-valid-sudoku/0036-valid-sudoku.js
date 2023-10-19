@@ -3,38 +3,39 @@
  * @return {boolean}
  */
 var isValidSudoku = function (board) {
-  // we have 9 rows, columns and block. Each row, column, block cannot have duplicate numbers. To check that take 9 sets for each of them. Also take 1 row array, column array and block array to store each 9 sets
-  let rowSet = [];
-  let colSet = [];
-  let blockSet = [];
-
+  // for row, column: return false if duplicate item found
   for (let i = 0; i < 9; i++) {
-    rowSet[i] = new Set();
-    colSet[i] = new Set();
-    blockSet[i] = new Set();
-  }
+    let currRow = new Set();
+    let currCol = new Set();
 
-  for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
-      let f = board[i][j];
+      let itemInCurrRow = board[i][j];
+      let itemInCurrCol = board[j][i];
 
-      if (f == ".") continue;
+      if (itemInCurrRow !== "." && currRow.has(itemInCurrRow)) return false;
+      currRow.add(itemInCurrRow);
 
-      // each row check - same i, different j → same number → false → otherwise add
-      if (rowSet[i].has(f)) return false;
-      else rowSet[i].add(f);
-
-      // each column check - same j, different i → same number → false → otherwise add
-      if (colSet[j].has(f)) return false;
-      else colSet[j].add(f);
-
-      // each 3 × 3 block check - same b, different i, j → same number → false → otherwise add
-      // formula for relationship between i, j and 3 × 3 block index, b
-      let x = 3 * Math.floor(i / 3) + Math.floor(j / 3);
-      // say, board[4][5] → i=4, j=5 → x=1*3+1=4 → board[4][5] is in 4th block
-      if (blockSet[x].has(f)) return false;
-      else blockSet[x].add(f);
+      if (itemInCurrCol !== "." && currCol.has(itemInCurrCol)) return false;
+      currCol.add(itemInCurrCol);
     }
   }
+
+  // for block: return false if duplicate item found
+  for (let i = 0; i < 9; i += 3) {
+    for (let j = 0; j < 9; j += 3) {
+      let currBlock = new Set();
+
+      for (let x = 0; x < 3; x++) {
+        for (let y = 0; y < 3; y++) {
+          let itemInCurrBlock = board[i + x][j + y];
+
+          if (itemInCurrBlock !== "." && currBlock.has(itemInCurrBlock))
+            return false;
+          currBlock.add(itemInCurrBlock);
+        }
+      }
+    }
+  }
+
   return true;
 };
