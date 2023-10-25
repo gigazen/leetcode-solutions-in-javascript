@@ -9,7 +9,7 @@ const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
 const getCode = () => {
     let code = new Array(6).fill()
-        .map(_ => chars.charAt(~~(Math.random() * 62)))
+        .map(_ => chars.charAt((Math.random() * 62)))
     return "http://tinyurl.com/" + code.join("")
 }
 
