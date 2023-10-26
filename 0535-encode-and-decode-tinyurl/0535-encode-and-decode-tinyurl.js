@@ -4,22 +4,15 @@
  * @param {string} longUrl
  * @return {string}
  */
-let codeDB = new Map(), urlDB = new Map()
-const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+let map = new Map();
+let url = "http://tinyurl.com/";
+var encode = function(longUrl) {
+    let key = Date.now().toString();
+    map.set(key,longUrl);
+    return url + key;
+};
 
-const getCode = () => {
-    let code = new Array(6).fill()
-        .map(_ => chars.charAt((Math.random() * 62)))
-    return "http://tinyurl.com/" + code.join("")
-}
-
-const encode = longUrl => {
-    if (urlDB.has(longUrl)) return urlDB.get(longUrl)
-    let code = getCode()
-    while (codeDB.has(code)) code = getCode()
-    codeDB.set(code, longUrl)
-    urlDB.set(longUrl, code)
-    return code
-}
-
-const decode = shortUrl => codeDB.get(shortUrl)
+var decode = function(shortUrl) {
+    let key = shortUrl.split(url);
+    return map.get(key[1]);
+};
