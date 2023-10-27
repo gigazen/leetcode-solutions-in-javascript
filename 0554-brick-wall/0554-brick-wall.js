@@ -2,27 +2,16 @@
  * @param {number[][]} wall
  * @return {number}
  */
-var leastBricks = function (wall) {
-  let freqMap = new Map();
-  let maxFreq = 0;
-
-  for (let row of wall) {
-    let runningSumInRow = row[0];
-    let isFirstBrick = true;
-
-    for (let brick of row) {
-      if (isFirstBrick) {
-        isFirstBrick = false;
-        continue;
-      }
-      freqMap.set(runningSumInRow, (freqMap.get(runningSumInRow) || 0) + 1);
-      runningSumInRow += brick;
+var leastBricks = function(wall) {
+    const counts = {};
+    let max = 0;
+    for (let row of wall) {
+        let sum = 0;
+        for (let i = 0; i < row.length - 1; i++) {
+            sum += row[i];
+            counts[sum] = (counts[sum] || 0) + 1;
+            max = Math.max(max, counts[sum]);
+        }
     }
-  }
-
-  for (let [runningSumInRow, freq] of freqMap) {
-    if (freq > maxFreq) maxFreq = freq;
-  }
-
-  return wall.length - maxFreq;
+    return wall.length - max;
 };
