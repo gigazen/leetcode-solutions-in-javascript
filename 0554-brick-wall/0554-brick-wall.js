@@ -7,12 +7,12 @@ var leastBricks = function (wall) {
   let maxFreq = 0;
 
   for (let row of wall) {
-    let runningSumInRow = 0;
+    let rngSumInRow = 0;
 
     for (let i = 0; i < row.length - 1; i++) {
-      runningSumInRow += row[i];
-      freqMap.set(runningSumInRow, (freqMap.get(runningSumInRow) || 0) + 1);
-      maxFreq = Math.max(maxFreq, freqMap.get(runningSumInRow));
+      rngSumInRow += row[i];
+      freqMap.set(rngSumInRow, (freqMap.get(rngSumInRow) || 0) + 1);
+      maxFreq = Math.max(maxFreq, freqMap.get(rngSumInRow));
     }
   }
 
