@@ -3,20 +3,16 @@
  * @return {number}
  */
 var maxProfit = function (prices) {
-  let [bought, buyingPrice, sellingPrice, profit] = [false, 0, 0, 0];
-  for (let i = 0; i < prices.length; i++) {
-    if (prices[i] < prices[i + 1] && !bought) {
-      buyingPrice = prices[i];
-      bought = true;
-    }
-    if (prices[i] > prices[i + 1] && bought) {
-      sellingPrice = prices[i];
-      bought = false;
-      profit += sellingPrice - buyingPrice;
-    }
+  let maxProfit = 0;
 
-    if (bought && i === prices.length - 1) profit += prices[i] - buyingPrice;
+  for (let i = 0; i < prices.length; i++) {
+    let prevPrice = prices[i - 1];
+    let currPrice = prices[i];
+
+    if (prevPrice < currPrice) {
+      maxProfit += currPrice - prevPrice;
+    }
   }
 
-  return profit;
+  return maxProfit;
 };
