@@ -11,7 +11,7 @@ var subarraySum = function (nums, k) {
   for (let i = 0; i < nums.length; i++) {
     curSum += nums[i];
 
-    numOfSubarr += map.get(curSum - k) || 0;
+    if (map.has(curSum - k)) numOfSubarr += map.get(curSum - k);
     map.set(curSum, 1 + (map.get(curSum) || 0));
   }
   return numOfSubarr;
