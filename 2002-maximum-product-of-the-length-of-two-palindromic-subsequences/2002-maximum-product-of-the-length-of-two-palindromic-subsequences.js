@@ -2,41 +2,50 @@
  * @param {string} s
  * @return {number}
  */
-const isPalindrome = (s) => { let n = s.length; let i = 0; let j = n - 1; while (i < j) { if (s[i++] != s[j--]) return false; } return true; };
+var maxProduct = function (s) {
+  const N = s.length;
+  const first = new Array(1 << N).fill(0),
+    last = new Array(1 << N).fill(0);
+  for (let i = 0; i < N; i++) {
+    for (let j = 1 << i; j < 1 << (i + 1); j++) {
+      first[j] = i;
+    }
+  }
 
-const maxProduct = (s) => {
-    let a = [];
-    let n = s.length;
-    let N = 2 ** n; // equal to 1 << n 
-    for (let i = 0; i < N; i++) { // mask
-        let sub = '';
-        let idx = new Set();
-        for (let j = 0; j < n; j++) {
-            if (i & (1 << j)) {
-                sub += s[j];
-                idx.add(j);
-            }
-        }
-        if (isPalindrome(sub)) { // save all palindrome subsequence with index Set
-            a.push([sub, idx]);
-        }
+  for (let i = 0; i < N; i++) {
+    for (let j = 1 << i; j < 1 << N; j += 1 << (i + 1)) {
+      last[j] = i;
     }
-    let an = a.length;
-    let res = 0;
-    for (let i = 0; i < an; i++) {
-        for (let j = i + 1; j < an; j++) {
-            if (isDisjoint(a[i][0], a[j][0], a[i][1], a[j][1])) {
-                let len = a[i][0].length * a[j][0].length; // product
-                res = Math.max(res, len);
-            }
-        }
+  }
+
+  const dp = Memo((m) => {
+    if ((m & (m - 1)) === 0) {
+      return m != 0;
     }
-    return res;
+    const l = last[m],
+      f = first[m];
+    const lb = 1 << l,
+      fb = 1 << f;
+    return Math.max(
+      dp(m - lb),
+      dp(m - fb),
+      dp(m - lb - fb) + (s[l] == s[f]) * 2
+    );
+  });
+  let ans = 0;
+  for (let m = 1; m < 1 << N; m++) {
+    ans = Math.max(ans, dp(m) * dp((1 << N) - 1 - m));
+  }
+  return ans;
 };
 
-const isDisjoint = (s, t, is, it) => { // two subsequence index Set should be different, no same index
-    for(const i of is) {
-        if (it.has(i)) return false;
+var Memo = (func) => {
+  const map = new Map();
+  var wrapper = (m) => {
+    if (!map.get(m)) {
+      map.set(m, func(m));
     }
-    return true;
+    return map.get(m);
+  };
+  return wrapper;
 };
