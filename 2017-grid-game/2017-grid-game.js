@@ -3,13 +3,27 @@
  * @return {number}
  */
 var gridGame = function(grid) {
-    let top = grid[0].reduce((acc, num) => acc + num, 0);
-    let bottom = 0;
-    let res = Infinity;
-    for(let i = 0; i < grid[0].length; i++) {
-        top -= grid[0][i];
-        res = Math.min(res, Math.max(top, bottom));
-        bottom += grid[1][i];
+    const n = grid[0].length;
+    
+    let topTotSum = grid[0].reduce((acc, num) => acc + num, 0);
+    let botTotSum = grid[1].reduce((acc, num) => acc + num, 0);
+    
+    let leftAccBotSum = 0;
+    
+    let bestSum = Math.min(topTotSum, botTotSum);
+    
+    for (let j = 0; j < n; ++j) {
+        const topNum = grid[0][j];
+        const botNum = grid[1][j];
+        
+        topTotSum -= topNum;
+        
+        const maxSum = Math.max(topTotSum, leftAccBotSum);
+        
+        bestSum = Math.min(bestSum, maxSum);
+        
+        leftAccBotSum += botNum;
     }
-    return res;        
-}
+    
+    return bestSum;
+};
