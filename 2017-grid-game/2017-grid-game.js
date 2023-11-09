@@ -2,22 +2,25 @@
  * @param {number[][]} grid
  * @return {number}
  */
-var gridGame = function(grid) {
-    let len = grid[0].length;
-    let prefixTop = grid[0].slice();
-    let prefixBottom = grid[1].slice();
-    for (let i = 1; i < len; i++) {
-        prefixTop[i] += prefixTop[i-1];
-        prefixBottom[i] += prefixBottom[i-1];
-    }
-    let result = Infinity;
-    for (let j = 0; j < len; j++) {
-        let top = prefixTop[len - 1] - prefixTop[j];
-        let bottom = j > 0 ? prefixBottom[j - 1] : 0;
-		// From the current index, find the max points that Robot 2 can attain from either the top or bottom.
-        let r2 = Math.max(top, bottom);
-		// Keep track of the lowest max points value of all the indices visited.
-        result = Math.min(result, r2);
-    }
-    return result;
-}
+// 88%, 30%
+var gridGame = function (grid) {
+  let noOfCols = grid[0].length;
+  let topRowPfxSum = grid[0].slice();
+  let botRowPfxSum = grid[1].slice();
+
+  for (let i = 1; i < noOfCols; i++) {
+    topRowPfxSum[i] += topRowPfxSum[i - 1];
+    botRowPfxSum[i] += botRowPfxSum[i - 1];
+  }
+
+  let lowestMaxPtOfRobot2 = Infinity;
+  for (let i = 0; i < noOfCols; i++) {
+    let topRightPfxSum = topRowPfxSum[noOfCols - 1] - topRowPfxSum[i];
+    let botLeftPfxSum = i > 0 ? botRowPfxSum[i - 1] : 0;
+    // From the current index, find the max points that Robot2 can collect from either the topRightPfxSum or botLeftPfxSum
+    let maxPointOfRobot2 = Math.max(topRightPfxSum, botLeftPfxSum);
+    // Keep track of the lowest max points value of all the indices visited because Robot1 will minimize Robot2's max points
+    lowestMaxPtOfRobot2 = Math.min(lowestMaxPtOfRobot2, maxPointOfRobot2);
+  }
+  return lowestMaxPtOfRobot2;
+};
