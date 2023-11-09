@@ -3,7 +3,10 @@
  * @return {number}
  */
 var gridGame = function (grid) {
-  let topRightPfxSum = grid[0].reduce((acc, num) => acc + num, 0);
+  let topRightPfxSum = 0;
+  for (let i = 0; i < grid[0].length; i++) {
+    topRightPfxSum += grid[0][i];
+  }
   let botLeftPfxSum = 0;
   let lowestMaxPtOfRobot2 = Infinity;
 
