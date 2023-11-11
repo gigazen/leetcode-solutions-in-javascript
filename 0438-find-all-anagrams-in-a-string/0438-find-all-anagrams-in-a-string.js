@@ -3,27 +3,34 @@
  * @param {string} p
  * @return {number[]}
  */
-var findAnagrams = function(s, p) { 
-    let hash = {},  uniqueChars = 0;
-    for (let c of p) {
-        if (hash[c]==null) {
-            uniqueChars++;
-            hash[c] = 1;
-        } else {
-            hash[c]++;
-        }
+var findAnagrams = function (s, p) {
+  const sArr = new Array(26).fill(0);
+  const pArr = new Array(26).fill(0);
+  const result = [];
+
+  for (let i = 0; i < p.length; i++) {
+    let index = p.charCodeAt(i) % 26;
+    pArr[index]++;
+  }
+
+  for (let i = 0; i < s.length; i++) {
+    let index = s.charCodeAt(i) % 26;
+    sArr[index]++;
+
+    if (i > p.length - 1) {
+      let headIdx = s.charCodeAt(i - p.length) % 26;
+      sArr[headIdx]--;
     }
-    
-    let res = [];
-    let left = 0, right = 0;
-    for (right;right<s.length;right++) {
-        if (hash[s[right]]!=null) hash[s[right]]--;
-        if (hash[s[right]]==0) uniqueChars--;
-        if (uniqueChars==0) res.push(left);
-        if (right - left + 1 == p.length) {
-            if (hash[s[left]]!=null) hash[s[left]]++;
-            if (hash[s[left++]]==1) uniqueChars++;
-        }
+
+    if (i >= p.length - 1) {
+      if (arrayValuesEqual(sArr, pArr)) result.push(i - (p.length - 1));
     }
-    return res;
+  }
+
+  function arrayValuesEqual(arrl, arr2) {
+    for (let i = 0; i < arrl.length; i++) if (arrl[i] !== arr2[i]) return false;
+    return true;
+  }
+
+  return result;
 };
