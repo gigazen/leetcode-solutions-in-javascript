@@ -4,33 +4,39 @@
  * @return {number[]}
  */
 var findAnagrams = function (s, p) {
-  const sArr = new Array(26).fill(0);
-  const pArr = new Array(26).fill(0);
-  const result = [];
+    const charMap = new Map();
+    let matches = 0;
+    const matchIdx = [];
 
-  for (let i = 0; i < p.length; i++) {
-    let index = p.charCodeAt(i) % 26;
-    pArr[index]++;
-  }
-
-  for (let i = 0; i < s.length; i++) {
-    let index = s.charCodeAt(i) % 26;
-    sArr[index]++;
-
-    if (i > p.length - 1) {
-      let headIdx = s.charCodeAt(i - p.length) % 26;
-      sArr[headIdx]--;
+    for (const char of p) {
+        const charCount = charMap.get(char) || 0;
+        charMap.set(char, charCount + 1);
     }
 
-    if (i >= p.length - 1) {
-      if (arrayValuesEqual(sArr, pArr)) result.push(i - (p.length - 1));
+    let leftWindow = 0;
+    for (let rightWindow = 0; rightWindow < s.length; rightWindow++) {
+        const rightChar = s[rightWindow];
+        if (charMap.has(rightChar)) {
+            const rightCharCount = charMap.get(rightChar);
+            charMap.set(rightChar, rightCharCount - 1);
+            if (charMap.get(rightChar) === 0) {
+                matches++;
+            }
+        }
+        if (rightWindow >= p.length) {
+            const leftChar = s[leftWindow];
+            if (charMap.has(leftChar)) {
+                const leftCharCount = charMap.get(leftChar);
+                charMap.set(leftChar, leftCharCount + 1);
+                if (leftCharCount === 0) {
+                    matches--;
+                }
+            }
+            leftWindow++;
+        }
+        if (matches === charMap.size) {
+            matchIdx.push(leftWindow);
+        }
     }
-  }
-
-  function arrayValuesEqual(arrl, arr2) {
-    for (let i = 0; i < arrl.length; i++) if (arrl[i] !== arr2[i]) return false;
-    return true;
-  }
-
-  return result;
+    return matchIdx;
 };
