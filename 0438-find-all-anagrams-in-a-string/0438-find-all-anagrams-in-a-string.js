@@ -3,40 +3,44 @@
  * @param {string} p
  * @return {number[]}
  */
-var findAnagrams = function (s, p) {
-  if (s.length < p.length) return [];
-  let pCharFreqMap = {};
-  let sCharFreqMap = {};
+function findAnagrams(s, p) {
   let result = [];
+  let pMap = {};
+  let sMap = {};
 
-  for (let i = 0; i < p.length; i++) {
-    pCharFreqMap[p[i]] = 1 + (pCharFreqMap[p[i]] || 0);
-    sCharFreqMap[s[i]] = 1 + (sCharFreqMap[s[i]] || 0);
+  for (let char of p) {
+    pMap[char] = (pMap[char] || 0) + 1;
   }
 
-  result = areObjectsEqual(sCharFreqMap, pCharFreqMap) ? [0] : [];
+  let left = 0;
+  let right = 0;
+  let count = 0;
 
-  let leftIdx = 0;
-  for (let rightIdx = p.length; rightIdx < s.length; rightIdx++) {
-    sCharFreqMap[s[rightIdx]] = 1 + (sCharFreqMap[s[rightIdx]] || 0); 
-    sCharFreqMap[s[leftIdx]]--; 
-    if (sCharFreqMap[s[leftIdx]] === 0) {
-      delete sCharFreqMap[s[leftIdx]]; 
-    }
-    leftIdx++; 
+  while (right < s.length) {
+    const char = s[right];
 
-    if (areObjectsEqual(sCharFreqMap, pCharFreqMap)) {
-      result.push(leftIdx);
-    }
-  }
+    if (pMap[char] !== undefined) {
+      sMap[char] = (sMap[char] || 0) + 1;
+      count++;
 
-  function areObjectsEqual(obj1, obj2) {
-    if (Object.keys(obj1).length !== Object.keys(obj2).length) return false;
-    for (const key in obj1) {
-      if (obj1[key] !== obj2[key]) return false;
+      while (sMap[char] > pMap[char]) {
+        const leftChar = s[left];
+        sMap[leftChar]--;
+        count--;
+        left++;
+      }
+
+      if (count === p.length) {
+        result.push(left);
+      }
+    } else {
+      sMap = {};
+      count = 0;
+      left = right + 1;
     }
-    return true;
+
+    right++;
   }
 
   return result;
-};
+}
