@@ -3,40 +3,50 @@
  * @param {string} p
  * @return {number[]}
  */
-var findAnagrams = function (s, p) {
-    const charMap = new Map();
-    let matches = 0;
-    const matchIdx = [];
+function findAnagrams(s, p) {
+  const result = [];
+  const pMap = new Map();
 
-    for (const char of p) {
-        const charCount = charMap.get(char) || 0;
-        charMap.set(char, charCount + 1);
+  // Create a frequency map for string p
+  for (let char of p) {
+    pMap.set(char, pMap.get(char) + 1 || 1);
+  }
+
+  let left = 0;
+  let right = 0;
+  let count = p.length;
+
+  while (right < s.length) {
+    const char = s[right];
+
+    if (pMap.has(char)) {
+      pMap.set(char, pMap.get(char) - 1);
+
+      if (pMap.get(char) >= 0) {
+        count--;
+      }
     }
 
-    let leftWindow = 0;
-    for (let rightWindow = 0; rightWindow < s.length; rightWindow++) {
-        const rightChar = s[rightWindow];
-        if (charMap.has(rightChar)) {
-            const rightCharCount = charMap.get(rightChar);
-            charMap.set(rightChar, rightCharCount - 1);
-            if (charMap.get(rightChar) === 0) {
-                matches++;
-            }
+    while (count === 0) {
+      if (right - left + 1 === p.length) {
+        result.push(left);
+      }
+
+      const leftChar = s[left];
+
+      if (pMap.has(leftChar)) {
+        pMap.set(leftChar, pMap.get(leftChar) + 1);
+
+        if (pMap.get(leftChar) > 0) {
+          count++;
         }
-        if (rightWindow >= p.length) {
-            const leftChar = s[leftWindow];
-            if (charMap.has(leftChar)) {
-                const leftCharCount = charMap.get(leftChar);
-                charMap.set(leftChar, leftCharCount + 1);
-                if (leftCharCount === 0) {
-                    matches--;
-                }
-            }
-            leftWindow++;
-        }
-        if (matches === charMap.size) {
-            matchIdx.push(leftWindow);
-        }
+      }
+
+      left++;
     }
-    return matchIdx;
-};
+
+    right++;
+  }
+
+  return result;
+}
