@@ -4,31 +4,35 @@
  * @return {number[]}
  */
 var findAnagrams = function (s, p) {
-  const arr = [];
-  const obj = {};
+  if (s.length < p.length) return [];
 
-  for (let i of p) {
-    obj[i] ? (obj[i] += 1) : (obj[i] = 1);
+  let sLength = s.length;
+  let pLength = p.length;
+  let [leftIdx, rightIdx, numOfMatches] = [0, 0, pLength];
+  const startIdxArr = [];
+  const pCharFreqMap = {};
+
+  for (let char of p) {
+    pCharFreqMap[char] = 1 + (pCharFreqMap[char] || 0);
   }
 
-  let left = 0;
-  let right = 0;
-  let count = p.length;
+  while (rightIdx < sLength) {
+    const sRChar = s[rightIdx];
+    const sLChar = s[leftIdx];
 
-  while (right < s.length) {
-    if (obj[s[right]] > 0) count--;
+    if (pCharFreqMap[sRChar] > 0) numOfMatches--;
 
-    obj[s[right]]--;
-    right++;
+    pCharFreqMap[sRChar]--;
+    rightIdx++;
 
-    if (count === 0) arr.push(left);
+    if (numOfMatches === 0) startIdxArr.push(leftIdx);
 
-    if (right - left == p.length) {
-      if (obj[s[left]] >= 0) count++;
+    if (rightIdx - leftIdx == pLength) {
+      if (pCharFreqMap[sLChar] >= 0) numOfMatches++;
 
-      obj[s[left]]++;
-      left++;
+      pCharFreqMap[sLChar]++;
+      leftIdx++;
     }
   }
-  return arr;
+  return startIdxArr;
 };
