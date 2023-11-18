@@ -8,9 +8,7 @@ var findAnagrams = function (s, p) {
 
   let sLength = s.length;
   let pLength = p.length;
-  let [leftIdx, rightIdx, numOfMatches] = [0, 0, pLength];
-  const startIdxArr = [];
-  const pCharFreqMap = {};
+  let [leftIdx, rightIdx, numOfMatches, startIdxArr, pCharFreqMap] = [0, 0, pLength, [], {},];
 
   for (let char of p) {
     pCharFreqMap[char] = 1 + (pCharFreqMap[char] || 0);
