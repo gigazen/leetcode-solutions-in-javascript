@@ -6,9 +6,7 @@
 var findAnagrams = function (s, p) {
   if (s.length < p.length) return [];
 
-  let sLength = s.length;
-  let pLength = p.length;
-  let [leftIdx, rightIdx, numOfMatches, startIdxArr, pCharFreqMap] = [0, 0, pLength, [], {},];
+  let [ sLength, pLength, leftIdx, rightIdx, numOfMatches, startIdxArr, pCharFreqMap, ] = [s.length, p.length, 0, 0, p.length, [], {}];
 
   for (let char of p) {
     pCharFreqMap[char] = 1 + (pCharFreqMap[char] || 0);
