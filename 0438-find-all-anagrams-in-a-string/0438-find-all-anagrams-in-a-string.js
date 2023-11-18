@@ -13,8 +13,7 @@ var findAnagrams = function (s, p) {
   }
 
   while (rightIdx < sLength) {
-    const sRChar = s[rightIdx];
-    const sLChar = s[leftIdx];
+    const [sRChar, sLChar] = [s[rightIdx], s[leftIdx]];
 
     if (pCharFreqMap[sRChar] > 0) numOfMatches--;
 
