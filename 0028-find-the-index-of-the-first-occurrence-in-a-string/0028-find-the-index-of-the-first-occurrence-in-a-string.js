@@ -4,37 +4,18 @@
  * @return {number}
  */
 var strStr = function (haystack, needle) {
+  if (needle.length === 0) return 0;
   if (haystack.length < needle.length) return -1;
 
-  let [hLength, nLength, leftIdx, rightIdx, numOfMatches, nCharFreqMap] = [
-    haystack.length,
-    needle.length,
-    0,
-    0,
-    needle.length,
-    {},
-  ];
-
-  for (let char of needle) {
-    nCharFreqMap[char] = 1 + (nCharFreqMap[char] || 0);
-  }
-
-  while (rightIdx < hLength) {
-    let [hLChar, hRChar] = [haystack[leftIdx], haystack[rightIdx]];
-
-    if (nCharFreqMap[hRChar] > 0) numOfMatches--;
-    nCharFreqMap[hRChar]--;
-    rightIdx++;
-
-    if (numOfMatches === 0 && haystack.substring(leftIdx, rightIdx) === needle)
-      return leftIdx;
-
-    if (rightIdx - leftIdx === nLength) {
-      if (nCharFreqMap[hLChar] >= 0) numOfMatches++;
-      nCharFreqMap[hLChar]++;
-      leftIdx++;
+  let nIdx = 0;
+  for (let i = 0; i < haystack.length; i++) {
+    if (haystack[i] === needle[nIdx]) {
+      nIdx++;
+      if (nIdx === needle.length) return i - (nIdx - 1);
+    } else {
+      i = i - nIdx;
+      nIdx = 0;
     }
   }
-
   return -1;
 };
