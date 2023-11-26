@@ -3,22 +3,22 @@
  * @param {number} k
  * @return {boolean}
  */
-var checkSubarraySum = function (nums, k) {
-  let sum = 0;
-  const hash = {};
-  hash[0] = -1;
+function checkSubarraySum(nums, k) {
+  const remIdxMap = new Map();
+  let rngSum = 0;
 
   for (let i = 0; i < nums.length; i++) {
-    sum += nums[i];
+    rngSum += nums[i];
+    const rem = rngSum % k;
 
-    if (k != 0) sum %= k;
+    if (rem === 0 && i !== 0) return true;
 
-    if (hash[sum] !== undefined) {
-      if (i - hash[sum] > 1) return true;
-    } else {
-      hash[sum] = i;
+    if (!remIdxMap.has(rem)) {
+      remIdxMap.set(rem, i);
+    } else if (i - remIdxMap.get(rem) >= 2) {
+      return true;
     }
   }
 
   return false;
-};
+}
