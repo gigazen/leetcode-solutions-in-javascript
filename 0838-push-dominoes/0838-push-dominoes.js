@@ -3,34 +3,36 @@
  * @return {string}
  */
 var pushDominoes = function (dominoes) {
-  const N = dominoes.length;
-  const force = new Array(N).fill(0);
+  dominoes = "L" + dominoes + "R";
+  const arr = dominoes.split("");
 
-  // Populate forces going from left to right
-  let f = 0;
-  for (let i = 0; i < N; i++) {
-    if (dominoes[i] === "R") {
-      f = N;
-    } else if (dominoes[i] === "L") {
-      f = 0;
+  for (let i = 0, j = 1; j < dominoes.length; j++) {
+    if (arr[j] === ".") continue;
+
+    if (arr[i] === "L" && arr[j] === "L") {
+      // make all dots as L
+      for (let k = i + 1; k < j; k++) arr[k] = "L";
+    } else if (arr[i] === "R" && arr[j] === "R") {
+      // make all dots as R
+      for (let k = i + 1; k < j; k++) arr[k] = "R";
+    } else if (arr[i] === "L" && arr[j] === "R") {
+      // nothing to do
     } else {
-      f = Math.max(f - 1, 0);
+      // solve acc. to odd and even number of dots
+      let mid = Math.floor((i + j) / 2);
+      if ((j - i) % 2 === 0) {
+        // odd dots
+        for (let k = i + 1; k < mid; k++) arr[k] = "R";
+        for (let k = mid + 1; k < j; k++) arr[k] = "L";
+      } else {
+        // even dots
+        for (let k = i + 1; k <= mid; k++) arr[k] = "R";
+        for (let k = mid + 1; k < j; k++) arr[k] = "L";
+      }
     }
-    force[i] += f;
+    i = j;
   }
 
-  // Populate forces going from right to left
-  f = 0;
-  for (let i = N - 1; i >= 0; i--) {
-    if (dominoes[i] === "L") {
-      f = N;
-    } else if (dominoes[i] === "R") {
-      f = 0;
-    } else {
-      f = Math.max(f - 1, 0);
-    }
-    force[i] -= f;
-  }
-
-  return force.map((f) => (f === 0 ? "." : f > 0 ? "R" : "L")).join("");
+  // remove the added L and R at the beginning and end, and create a string
+  return arr.slice(1, dominoes.length - 1).join("");
 };
