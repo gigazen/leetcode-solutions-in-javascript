@@ -4,9 +4,10 @@
  */
 var pushDominoes = function (dominoes) {
   dominoes = "L" + dominoes + "R";
-  const arr = dominoes.split("");
+  const arr = dominoes.split(""),
+    n = dominoes.length;
 
-  for (let i = 0, j = 1; j < dominoes.length; j++) {
+  for (let i = 0, j = 1; j < n; j++) {
     if (arr[j] === ".") continue;
 
     if (arr[i] === "L" && arr[j] === "L") {
@@ -34,5 +35,5 @@ var pushDominoes = function (dominoes) {
   }
 
   // remove the added L and R at the beginning and end, and create a string
-  return arr.slice(1, dominoes.length - 1).join("");
+  return arr.slice(1, n - 1).join("");
 };
