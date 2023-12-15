@@ -3,18 +3,15 @@
  * @return {string[]}
  */
 var findRepeatedDnaSequences = function (s) {
-  let map = new Map();
-  let resultArr = [];
+  let seenSet = new Set();
+  let resultSet = new Set();
 
   for (let i = 0, j = 9; j < s.length; j++) {
     let sequence = s.slice(i, j + 1);
-    map.set(sequence, 1 + (map.get(sequence) || 0));
+    if (seenSet.has(sequence)) resultSet.add(sequence);
+    seenSet.add(sequence);
     i++;
   }
 
-  for (let [key, value] of map.entries()) {
-    if (value > 1) resultArr.push(key);
-  }
-
-  return resultArr;
+  return [...resultSet];
 };
