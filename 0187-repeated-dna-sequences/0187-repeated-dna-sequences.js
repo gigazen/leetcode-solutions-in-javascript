@@ -3,23 +3,30 @@
  * @return {string[]}
  */
 var findRepeatedDnaSequences = function(s) {
-  const sequenceMap = {'A': 0, 'C': 1, 'G': 2, 'T': 3}
-  const base = 4;
-  const hashMap = {};
-  let rollingHash = 0;
-  for(let i = 0, power = 9; i < 10; i++, power--) {
-    rollingHash += base ** power * sequenceMap[s[i]];
-  }
-  hashMap[rollingHash] = s.slice(0, 10);
-  let answer = new Set();
-  for(let i = 10; i < s.length; i++) {
-    let nextRollingHash = base * (rollingHash - base ** 9 * sequenceMap[s[i - 10]]) + sequenceMap[s[i]];
-    if(nextRollingHash in hashMap) {
-      answer.add(hashMap[nextRollingHash])
-    } else {
-      hashMap[nextRollingHash] = s.slice(i - 9, i + 1);
+    if (s.length < 10) {
+        return [];
     }
-    rollingHash = nextRollingHash;
-  }
-  return [...answer.values()];
-};
+    let hashSet = new Set(), hash = 0, windowSize = 10, base = 4;
+    let decoded = {'A': 1, 'C': 2, 'G': 3, 'T': 4};
+    // process the first window separately
+    for (let i = 0; i < 10; i++) {
+        hash += Math.pow(base, windowSize-i-1) * decoded[s[i]];
+    }
+    hashSet.add(hash);
+    let res = new Set();
+    for (let i = 10; i < s.length; i++) {
+        // subtract the left-most bit
+        hash -= Math.pow(base, windowSize-1) * decoded[s[i-windowSize]];
+        hash *= base;
+        hash += decoded[s[i]];
+        if (hashSet.has(hash)) {
+            res.add(s.substring(i+1-windowSize, i+1));
+        } else {
+            hashSet.add(hash);
+        }
+    }
+    return Array.from(res);
+    // T.C: O(K*(N-K+1)) where K = 10 in the worst case 
+    // but average time complexity will be O(N-K+1) which is much better
+    // S.C: O(K*(N-K+1))
+}
