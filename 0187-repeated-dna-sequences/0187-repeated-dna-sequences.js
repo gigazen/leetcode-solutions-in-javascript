@@ -16,7 +16,7 @@ function findRepeatedDnaSequences(s) {
 
   // calculate the rolling hash for the first 9 characters
   for (let i = 0; i < 9; i++) {
-    rollingHash = rollingHash * 4 + charCode[s[i]];
+    rollingHash = rollingHash * 5 + charCode[s[i]];
   }
 
   const result = [];
@@ -24,7 +24,7 @@ function findRepeatedDnaSequences(s) {
   for (let i = 9; i < s.length; i++) {
     // rolling hash for the 10 character window
     // s[i - 9 : i]
-    rollingHash = rollingHash * 4 + charCode[s[i]];
+    rollingHash = rollingHash * 5 + charCode[s[i]];
 
     if (!hashMap.has(rollingHash)) {
       // if seeing hash the first time
@@ -39,7 +39,7 @@ function findRepeatedDnaSequences(s) {
 
     // rolling hash for the 9 character window
     // s[i - 8 : i]
-    rollingHash -= charCode[s[i - 9]] * Math.pow(4, 9);
+    rollingHash -= charCode[s[i - 9]] * Math.pow(5, 9);
   }
 
   return result;
