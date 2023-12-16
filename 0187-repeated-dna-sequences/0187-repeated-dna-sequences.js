@@ -12,11 +12,13 @@ function findRepeatedDnaSequences(s) {
     T: 4,
   };
   const hashMap = new Map();
+  const base = 5;
+  const modulo = Math.pow(10, 9) + 7; // A common choice for modulo to avoid integer overflow
   let rollingHash = 0;
 
   // calculate the rolling hash for the first 9 characters
   for (let i = 0; i < 9; i++) {
-    rollingHash = rollingHash * 5 + charCode[s[i]];
+    rollingHash = (rollingHash * base + charCode[s[i]]) % modulo;
   }
 
   const result = [];
@@ -24,7 +26,7 @@ function findRepeatedDnaSequences(s) {
   for (let i = 9; i < s.length; i++) {
     // rolling hash for the 10 character window
     // s[i - 9 : i]
-    rollingHash = rollingHash * 5 + charCode[s[i]];
+    rollingHash = (rollingHash * base + charCode[s[i]]) % modulo;
 
     if (!hashMap.has(rollingHash)) {
       // if seeing hash the first time
@@ -39,7 +41,12 @@ function findRepeatedDnaSequences(s) {
 
     // rolling hash for the 9 character window
     // s[i - 8 : i]
-    rollingHash -= charCode[s[i - 9]] * Math.pow(5, 9);
+    rollingHash =
+      (rollingHash - charCode[s[i - 9]] * Math.pow(base, 9)) % modulo;
+    if (rollingHash < 0) {
+      // Ensure the rolling hash is non-negative after subtraction
+      rollingHash += modulo;
+    }
   }
 
   return result;
