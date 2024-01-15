@@ -5,18 +5,17 @@
  */
 var strStr = function (haystack, needle) {
   if (needle.length === 0) return 0;
-  if (haystack.length < needle.length) return -1;
-  
-  for (let i = 0; i < haystack.length; i++) {
-    let isMatch = true;
-    for (let j = 0; j < needle.length; j++) {
-      if (haystack[i + j] !== needle[j]) {
-        isMatch = false;
-        break;
-      }
-    }
+  if (haystack.length < needle.length) return -1;
 
-    if (isMatch) return i;
+  let nIdx = 0;
+  for (let i = 0; i < haystack.length; i++) {
+    if (haystack[i] === needle[nIdx]) {
+      nIdx++;
+      if (nIdx === needle.length) return i - (nIdx - 1);
+    } else {
+      i = i - nIdx;
+      nIdx = 0;
+    }
   }
   return -1;
 };
